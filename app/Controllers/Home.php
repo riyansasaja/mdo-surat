@@ -186,7 +186,7 @@ class Home extends BaseController
         if (isset($_POST['reset_password'])) {
             # code...
             # tentukan password default
-            $password = 'pabitung12345';
+            $password = 'persuratan2025';
             //update user password
             $user->password_hash = Password::hash($password);
 
