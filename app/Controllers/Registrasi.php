@@ -64,14 +64,13 @@ class Registrasi extends BaseController
     public function addSM()
     {
         $rules = [
-            'username'    =>  'required',
-            'sifat_surat'   =>  'required',
-            'jenis_surat'   =>  'required',
-            'kode_surat'    => 'required',
             'nomor_agenda'  =>  'required',
             'tgl_agenda'    =>  'required',
             'no_surat'      =>  'required',
             'tgl_surat'     =>  'required',
+            'sifat_surat'   =>  'required',
+            'jenis_surat'   =>  'required',
+            'kode_surat'    => 'required',
             'asal_surat'    =>  'required',
             'perihal'       =>  'required',
             'isi_surat'     =>  'required',
