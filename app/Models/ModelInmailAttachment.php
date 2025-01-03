@@ -6,13 +6,17 @@ use CodeIgniter\Model;
 
 class ModelInmailAttachment extends Model
 {
-    protected $table            = 'modelinmailattachments';
-    protected $primaryKey       = 'id';
+    protected $table            = 'tb_inmail_attachment';
+    protected $primaryKey       = 'id_attachment';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_inmail',
+        'attachment_file',
+
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
