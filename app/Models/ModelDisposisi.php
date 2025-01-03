@@ -6,13 +6,22 @@ use CodeIgniter\Model;
 
 class ModelDisposisi extends Model
 {
-    protected $table            = 'modeldisposisis';
-    protected $primaryKey       = 'id';
+    protected $table            = 'tb_disposisi';
+    protected $primaryKey       = 'id_disposisi';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_inmail',
+        'id_disposisi_parent',
+        'for',
+        'to',
+        'sifat',
+        'petunjuk',
+        'catatan',
+        'deadline',
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
