@@ -6,13 +6,17 @@ use CodeIgniter\Model;
 
 class ModelEvidence extends Model
 {
-    protected $table            = 'modelevidences';
-    protected $primaryKey       = 'id';
+    protected $table            = 'tb_evidence';
+    protected $primaryKey       = 'id_evidence';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'id_inmail',
+        'id_user',
+        'nama_file',
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
