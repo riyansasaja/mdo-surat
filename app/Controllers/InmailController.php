@@ -77,10 +77,10 @@ class InmailController extends BaseController
 
         //bikin rules
         if (!$this->validate([
-            'sifat' =>  'required',
+//            'sifat' =>  'required',
             'disposition_to' => 'required',
-            'petunjuk' => 'required',
-            'catatan' => 'required'
+//            'petunjuk' => 'required',
+//            'catatan' => 'required'
         ])) {
             $validation = \Config\Services::validation();
             $errors = $validation->getErrors();
@@ -97,7 +97,8 @@ class InmailController extends BaseController
         $disposition_to = $this->request->getVar('disposition_to');
         $sifat = $this->request->getVar('sifat');
         $petunjuk = $this->request->getVar('petunjuk');
-        $Petunjuk_in = implode(",", $petunjuk);
+
+        $Petunjuk_in = ($petunjuk==null)? null: implode(",", $petunjuk);
         $catatan = $this->request->getVar('catatan');
 
 
