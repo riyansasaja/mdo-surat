@@ -6,13 +6,26 @@ use CodeIgniter\Model;
 
 class ModelInmail extends Model
 {
-    protected $table            = 'modelinmails';
-    protected $primaryKey       = 'id';
+    protected $table            = 'tb_inmail';
+    protected $primaryKey       = 'id_inmail';
     protected $useAutoIncrement = true;
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = [];
+    protected $allowedFields    = [
+        'nomor_agenda',
+        'tgl_agenda',
+        'no_surat',
+        'tgl_surat',
+        'sifat_surat',
+        'jenis_surat',
+        'kode_surat',
+        'asal_surat',
+        'perihal',
+        'isi_surat',
+        'status_inmail',
+        'id_user_despo'
+    ];
 
     protected bool $allowEmptyInserts = false;
     protected bool $updateOnlyChanged = true;
