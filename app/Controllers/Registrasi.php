@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use App\Models\DespositionModel;
 use App\Models\InmailAttachment;
 use App\Models\InmailModel;
+use App\Models\ModelDisposisi;
+use App\Models\ModelInmail;
 use App\Models\ModelKodeSurat;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -14,14 +16,14 @@ use PhpParser\Node\Stmt\Echo_;
 class Registrasi extends BaseController
 {
     //deklarasi model untuk dipakai di semua method
-    private $model;
-    private $despositionModel;
+    private $inmailModel;
+    private $modelDisposisi;
     private $year;
 
     public function __construct()
     {
-        $this->model = new InmailModel();
-        $this->despositionModel = new DespositionModel();
+        $this->inmailModel = new ModelInmail();
+        $this->modelDisposisi = new ModelDisposisi();
         $this->year = session()->year;
     }
 
@@ -29,8 +31,11 @@ class Registrasi extends BaseController
     {
         $modelKode = new ModelKodeSurat();
         //ambil semua data
-        $data['mails'] = $this->model->where('YEAR(inmail_log)', $this->year)->findAll();
+        $data['mails'] = $this->inmailModel->where('YEAR(inmail_log)', $this->year)->findAll();
         $data['suratKodes'] = $modelKode->findAll();
+        #mengecek nomor agenda
+        $lastMail = $this->inmailModel->first();
+        $data['lastMail'] = $lastMail['nomor_agenda'];
         return view('home/regsm', $data);
     }
 
@@ -42,13 +47,13 @@ class Registrasi extends BaseController
         //ambil data user
         $usermodal = new UserModel();
 
-        $data['dispositions'] = $this->despositionModel->getDesposition($id);
+        $data['dispositions'] = $this->modelDisposisi->getDesposition($id);
 
         $data['alluser'] = $usermodal->select('*')->join('tb_jabatan', 'users.jabatan = tb_jabatan.id_jabatan', 'left')->where('angker', 1)
             ->findall();
 
         // $data['alluser'] = $usermodal->where('angker', 1)->findAll();
-        $data['mail'] = (object)$this->model->where('inmail_id', $id)->first();
+        $data['mail'] = (object)$this->inmailModel->where('inmail_id', $id)->first();
         $data['mailAttachment'] = $inmailAttachment->where('inmail_id', $id)->findAll();
         $data['suratKodes'] = $modelKode->findAll();
 
@@ -80,7 +85,7 @@ class Registrasi extends BaseController
             session()->setFlashdata('error', $this->validator->getErrors());
             return redirect()->back();
         }
-        $this->model->insert($this->validator->getValidated());
+        $this->inmailModel->insert($this->validator->getValidated());
         session()->setFlashdata('success', 'Registrasi surat masuk berhasil diinput');
         return redirect()->to('/regsm');
         // dd($this->validator->getValidated());
@@ -115,7 +120,7 @@ class Registrasi extends BaseController
         //ambil inmailid
         $inmail_id = $this->request->getPost('inmail_id');
         //update data
-        $this->model->update($inmail_id, $this->validator->getValidated());
+        $this->inmailModel->update($inmail_id, $this->validator->getValidated());
         //beri pemberitahuan sukses update
         session()->setFlashdata('success', 'Surat masuk berhasil di Update');
         //kembalikan ke tampilan detil
@@ -136,7 +141,7 @@ class Registrasi extends BaseController
             return redirect()->back();
         } else {
             //jika tidak ada data jalankan proses hapus
-            $this->model->where('inmail_id', $id)->delete();
+            $this->inmailModel->where('inmail_id', $id)->delete();
             //beri pemberitahuan berhasil delete
             session()->setFlashdata('success', 'Surat masuk berhasil dihapus');
             //kembalikan ke tampilan regsm
@@ -150,7 +155,7 @@ class Registrasi extends BaseController
         $files = $this->request->getFile('inmailAttachment');
 
         //ambil data di inmail
-        $data_inmail = $this->model->where('inmail_id', $inmail_id)->first();
+        $data_inmail = $this->inmailModel->where('inmail_id', $inmail_id)->first();
 
 
 
@@ -235,7 +240,7 @@ class Registrasi extends BaseController
         ];
 
         //edit database inmail  - status inmail = 2 id_user despo = $id_userdespo
-        $this->model->update($inmail_id, $data);
+        $this->inmailModel->update($inmail_id, $data);
 
         //add data to database tb disposition
         $toaddTbDesposition = [
@@ -250,7 +255,7 @@ class Registrasi extends BaseController
 
         // dd($toaddTbDesposition);
         //masukkan ke dalam database
-        $this->despositionModel->insert($toaddTbDesposition, false);
+        $this->modelDisposisi->insert($toaddTbDesposition, false);
         //buat session untuk pemberitahun Sukses
         session()->setFlashdata('success', 'Surat Berhasil Diteruskan');
         //kembalikan ke view
@@ -263,10 +268,10 @@ class Registrasi extends BaseController
             'status_inmail' => 1,
             'id_user_despo' => null
         ];
-        $this->model->update($inmail_id, $data);
+        $this->inmailModel->update($inmail_id, $data);
 
         //delete database tb disposition
-        $this->despositionModel->where('inmail_id', $inmail_id)->delete();
+        $this->modelDisposisi->where('inmail_id', $inmail_id)->delete();
         session()->setFlashdata('success', 'Desposisi Berhasil Dibatalkan');
         return redirect()->to('regsm/regsmdetil' . '/' . $inmail_id);
     }
