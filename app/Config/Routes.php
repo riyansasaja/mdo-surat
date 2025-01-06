@@ -38,6 +38,10 @@ $routes->group('regsm', ['filter' => 'permission:manage-users, manage-regist'], 
 
 });
 
+//routes untuk proses management mail terusan
+$routes->group('inmailmanage', ['filter' => 'role:manager'], function ($routes) {
+    $routes->get('/', 'MailManager::index');
+});
 
 //untuk User / processinmail
 $routes->group('inmail', ['filter' => 'permission:process_inmail'], function ($routes) {
@@ -49,23 +53,3 @@ $routes->group('inmail', ['filter' => 'permission:process_inmail'], function ($r
     $routes->post('eviden', 'InmailController::addEviden');
 
 });
-
-
-
-
-##sebelum dilakukan grouping
-//Managemen Users
-// $routes->get('/users', 'Home::usersManajemen', ['filter' => 'permission:manage-users']);
-// $routes->get('/user/(:num)', 'Home::userDetil/$1', ['filter' => 'permission:manage-users']);
-// $routes->get('/regsm', 'Registrasi::suratMasuk', ['filter' => 'permission:manage-users, manage-regist']);
-// $routes->get('/regsmdetil/(:any)', 'Registrasi::detilSuratMasuk/$1', ['filter' => 'permission:manage-users, manage-regist']);
-// $routes->post('/regsm/add', 'Registrasi::addSM', ['filter' => 'permission:manage-users']);
-// $routes->post('/regsm/edit', 'Registrasi::editSuratMasuk', ['filter' => 'permission:manage-users']);
-// $routes->post('/regsm/despoted', 'Registrasi::despoted', ['filter' => 'permission:manage-users, manage-regist']);
-// $routes->get('/regsm/redespoted/(:num)', 'Registrasi::redespoted/$1', ['filter' => 'permission:manage-users, manage-regist']);
-// $routes->get('/regsm/delete/(:num)', 'Registrasi::deleteSuratMasuk/$1', ['filter' => 'permission:manage-users, manage-regist']);
-// $routes->post('/regsm/inattach', 'Registrasi::addinmailAttachment', ['filter' => 'permission:manage-users']);
-// $routes->get('/regsm/dellattach/(:any)/(:any)/(:num)', 'Registrasi::delinmailAttachment/$1/$2/$3', ['filter' => 'permission:manage-users, manage-regist']);
-// $routes->post('/addUser', 'Home::addUser', ['filter' => 'permission:manage-users']);
-// $routes->post('/editUser', 'Home::editUser', ['filter' => 'permission:manage-users']);
-##end ##########################################

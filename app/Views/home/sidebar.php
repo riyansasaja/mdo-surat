@@ -43,7 +43,7 @@
                 <?php if (in_groups('manager')) : ?>
                     <div class="sb-sidenav-menu-heading">Surat Masuk</div>
 
-                    <a class="nav-link " href="#" >
+                    <a class="nav-link " href="<?= base_url('inmailmanage') ?>" >
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope"></i></i></div>
                         Dari operator
                     </a>
