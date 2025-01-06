@@ -56,14 +56,12 @@
                                                             <tr>
                                                                 <th>No. Agenda</th>
                                                                 <th>Tgl. Agenda</th>
-                                                                <th>Diinput Oleh</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
                                                                 <td><?= $mail->nomor_agenda ?></td>
                                                                 <td><?= $mail->tgl_agenda ?></td>
-                                                                <td><?= $mail->username ?></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -74,7 +72,7 @@
                                                     <?php if ($mail->status_inmail == 1) : ?>
                                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#disposisiModal"><i class="fa-solid fa-paper-plane"></i> Teruskan Surat</button>
                                                     <?php else : ?>
-                                                        <a href="<?= base_url('regsm/redespoted/') . $mail->inmail_id ?>" class="btn btn-primary"><i class="fa-solid fa-plane-slash"></i> Batal Desposisi</a>
+                                                        <a href="<?= base_url('regsm/redespoted/') . $mail->id_inmail ?>" class="btn btn-primary"><i class="fa-solid fa-plane-slash"></i> Batal Desposisi</a>
                                                     <?php endif; ?>
                                                 </div>
                                                 <div class="col-md-4 px-2 d-grid gap-2 mb-2">
@@ -86,7 +84,7 @@
                                                 </div>
                                                 <div class="col-md-4 px-2 d-grid gap-2 mb-2">
                                                     <?php if ($mail->status_inmail == 1) : ?>
-                                                        <a href="<?= base_url('regsm/delete/') . $mail->inmail_id ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fa-solid fa-trash"></i> Hapus</a>
+                                                        <a href="<?= base_url('regsm/delete/') . $mail->id_inmail ?>" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fa-solid fa-trash"></i> Hapus</a>
                                                     <?php else : ?>
                                                         <a href="#" class="btn btn-danger disabled"><i class="fa-solid fa-trash"></i> Hapus</a>
                                                     <?php endif; ?>
@@ -113,7 +111,7 @@
                                         <?php if ($mail->status_inmail == 1) : ?>
 
                                             <?= form_open_multipart('regsm/inattach'); ?>
-                                            <?= form_hidden('inmail_id', $mail->inmail_id); ?>
+                                            <?= form_hidden('inmail_id', $mail->id_inmail); ?>
                                             <label for="formFile" class="form-label">Upload Berkas PDF surat</label>
                                             <input class="form-control mb-2" type="file" id="formFile" name="inmailAttachment">
                                             <button type="submit" class="btn btn-primary">Upload</button>
@@ -138,7 +136,7 @@
                                                     </th>
                                                     <td>
                                                         <?php if ($mail->status_inmail == 1) : ?>
-                                                            <a href="<?= base_url('regsm/dellattach/') . $mail->kode_surat . '/' . $attach['attachment_file'] . '/' . $attach['inmail_id'] ?>" class="text-reset" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fa-solid fa-trash"></i></a>
+                                                            <a href="<?= base_url('regsm/dellattach/') . $mail->kode_surat . '/' . $attach['attachment_file'] . '/' . $attach['id_inmail'] ?>" class="text-reset" onclick="return confirm('Yakin ingin menghapus data?')"><i class="fa-solid fa-trash"></i></a>
                                                         <?php endif; ?>
 
                                                     </td>
@@ -200,9 +198,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <?= form_open('regsm/edit'); ?>
-            <?= form_hidden('username', user()->username); ?>
             <?= form_hidden('status_inmail', $mail->status_inmail); ?>
-            <?= form_hidden('inmail_id', $mail->inmail_id); ?>
+            <?= form_hidden('inmail_id', $mail->id_inmail); ?>
             <div class="modal-body">
                 <!-- form -->
                 <div class="row mb-3">
@@ -293,7 +290,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <?= form_open('regsm/despoted'); ?>
-            <?= form_hidden('inmail_id', $mail->inmail_id); ?>
+            <?= form_hidden('inmail_id', $mail->id_inmail); ?>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Pilih Tujuan Disposisi</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

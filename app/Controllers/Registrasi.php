@@ -8,6 +8,7 @@ use App\Models\InmailAttachment;
 use App\Models\InmailModel;
 use App\Models\ModelDisposisi;
 use App\Models\ModelInmail;
+use App\Models\ModelInmailAttachment;
 use App\Models\ModelKodeSurat;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -43,18 +44,16 @@ class Registrasi extends BaseController
     {
         $modelKode = new ModelKodeSurat();
         //ambe data by id
-        $inmailAttachment = new InmailAttachment();
+        $inmailAttachment = new ModelInmailAttachment();
         //ambil data user
         $usermodal = new UserModel();
 
-        $data['dispositions'] = $this->modelDisposisi->getDesposition($id);
+        $data['dispositions'] = $this->modelDisposisi->getDesposisi($id);
 
-        $data['alluser'] = $usermodal->select('*')->join('tb_jabatan', 'users.jabatan = tb_jabatan.id_jabatan', 'left')->where('angker', 1)
+        $data['alluser'] = $usermodal->select('*')->join('tb_jabatan', 'users.jabatan = tb_jabatan.id_jabatan', 'left')->where('tb_jabatan.angker', 1)
             ->findall();
-
-        // $data['alluser'] = $usermodal->where('angker', 1)->findAll();
-        $data['mail'] = (object)$this->inmailModel->where('inmail_id', $id)->first();
-        $data['mailAttachment'] = $inmailAttachment->where('inmail_id', $id)->findAll();
+        $data['mail'] = (object)$this->inmailModel->where('id_inmail', $id)->first();
+        $data['mailAttachment'] = $inmailAttachment->where('id_inmail', $id)->findAll();
         $data['suratKodes'] = $modelKode->findAll();
 
         // dd($data);
@@ -96,14 +95,13 @@ class Registrasi extends BaseController
 
         //ambil data inputan
         $rules = [
-            'username'    =>  'required',
-            'sifat_surat'   =>  'required',
-            'jenis_surat'   =>  'required',
-            'kode_surat'    => 'required',
             'nomor_agenda'  =>  'required',
             'tgl_agenda'    =>  'required',
             'no_surat'      =>  'required',
             'tgl_surat'     =>  'required',
+            'sifat_surat'   =>  'required',
+            'jenis_surat'   =>  'required',
+            'kode_surat'    => 'required',
             'asal_surat'    =>  'required',
             'perihal'       =>  'required',
             'isi_surat'     =>  'required',
@@ -127,12 +125,12 @@ class Registrasi extends BaseController
     }
 
     //deleteSurat Masuk
-    public function deleteSuratMasuk($id)
+    public function deleteSuratMasuk($id_inmail)
     {
         //ambil data inmail attachment by inmail id
         //inisiasi inmail model
-        $attachmentModel = new InmailAttachment();
-        $attachmentcheck = $attachmentModel->where('inmail_id', $id)->findAll();
+        $attachmentModel = new ModelInmailAttachment();
+        $attachmentcheck = $attachmentModel->where('id_inmail', $id_inmail)->findAll();
         //apabila ada data
         if ($attachmentcheck) {
             //pemberitahuan "Harap menghapus lampiran surat terlebih dahulu"
@@ -140,7 +138,7 @@ class Registrasi extends BaseController
             return redirect()->back();
         } else {
             //jika tidak ada data jalankan proses hapus
-            $this->inmailModel->where('inmail_id', $id)->delete();
+            $this->inmailModel->where('id_inmail', $id_inmail)->delete();
             //beri pemberitahuan berhasil delete
             session()->setFlashdata('success', 'Surat masuk berhasil dihapus');
             //kembalikan ke tampilan regsm
@@ -154,7 +152,7 @@ class Registrasi extends BaseController
         $files = $this->request->getFile('inmailAttachment');
 
         //ambil data di inmail
-        $data_inmail = $this->inmailModel->where('inmail_id', $inmail_id)->first();
+        $data_inmail = $this->inmailModel->where('id_inmail', $inmail_id)->first();
 
 
 
@@ -191,11 +189,11 @@ class Registrasi extends BaseController
         if ($files->hasMoved()) {
             # ambil data 
             $datadb = [
-                'inmail_id' => $inmail_id,
+                'id_inmail' => $inmail_id,
                 'attachment_file' => $newName
             ];
             //masukkan ke db
-            $attachmentModel = new InmailAttachment();
+            $attachmentModel = new ModelInmailAttachment();
             $insertdb = $attachmentModel->insert($datadb);
             if (!$insertdb) {
                 # kembalikan info gagal
@@ -216,7 +214,7 @@ class Registrasi extends BaseController
 
     public function delinmailAttachment($kode, $name, $inmail_id)
     {
-        $attachmentModel = new InmailAttachment();
+        $attachmentModel = new ModelInmailAttachment();
         $file = new \CodeIgniter\Files\File('uploads/inmailAttach/' . session()->year . '/' .  $kode . '/' . $name);
         $delete = $attachmentModel->where('attachment_file', $name)->delete();
         if ($delete) {
@@ -237,24 +235,8 @@ class Registrasi extends BaseController
             'status_inmail' => 2,
             'id_user_despo' => $id_user_despo
         ];
-
         //edit database inmail  - status inmail = 2 id_user despo = $id_userdespo
         $this->inmailModel->update($inmail_id, $data);
-
-        //add data to database tb disposition
-        $toaddTbDesposition = [
-            'inmail_id' => $inmail_id,
-            'disposition_form' => user()->id,
-            'disposition_to' => $id_user_despo,
-            'petunjuk' => null,
-            'catatan' => 'Dari Admin',
-            'disposition_status' => 1,
-            'disposition_log' => time()
-        ];
-
-        // dd($toaddTbDesposition);
-        //masukkan ke dalam database
-        $this->modelDisposisi->insert($toaddTbDesposition, false);
         //buat session untuk pemberitahun Sukses
         session()->setFlashdata('success', 'Surat Berhasil Diteruskan');
         //kembalikan ke view
@@ -268,9 +250,7 @@ class Registrasi extends BaseController
             'id_user_despo' => null
         ];
         $this->inmailModel->update($inmail_id, $data);
-
-        //delete database tb disposition
-        $this->modelDisposisi->where('inmail_id', $inmail_id)->delete();
+        //kembalikan ke regsm detil.
         session()->setFlashdata('success', 'Desposisi Berhasil Dibatalkan');
         return redirect()->to('regsm/regsmdetil' . '/' . $inmail_id);
     }

@@ -191,7 +191,7 @@ class Home extends BaseController
             $user->password_hash = Password::hash($password);
 
             if ($this->usermodel->save($user)) {
-                return redirect()->route('users')->with('message', 'Password berhasil direset ke "pabitung12345"');
+                return redirect()->route('users')->with('message', 'Password berhasil direset ke "persuratan2025"');
             } else {
                 return redirect()->route('users')->with('message', 'Password gagal direset!');
             }

@@ -40,12 +40,23 @@
 
                 <?php endif;  ?>
 
+                <?php if (in_groups('manager')) : ?>
+                    <div class="sb-sidenav-menu-heading">Surat Masuk</div>
+
+                    <a class="nav-link " href="#" >
+                        <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope"></i></i></div>
+                        Dari operator
+                    </a>
+
+
+                <?php endif;  ?>
+
                 <?php if (has_permission('process_inmail')) : ?>
-                    <div class="sb-sidenav-menu-heading">Kelola Surat</div>
+                    <div class="sb-sidenav-menu-heading">Kelola Disposisi</div>
 
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope"></i></i></div>
-                        Surat Masuk
+                        Disposisi Masuk
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
