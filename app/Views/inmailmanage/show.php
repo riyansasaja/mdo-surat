@@ -47,7 +47,11 @@ echo $this->section('main');
                                 <?php elseif ($inmail['status_inmail'] == 3) : ?>
                                 <td>Proses Disposisi</td>
                                 <?php elseif ($inmail['status_inmail'] == 4) : ?>
-                                <td>Selesai/Diarsipkan</td>
+                                <td>
+                                    Selesai/Diarsipkan
+                                    <br>
+                                    <?= date('d-m-Y H:i:s', strtotime($inmail['attachment_log'])) ?>
+                                </td>
                                 <?php endif; ?>
                                 <td>
                                     <a href="<?= base_url('inmail/detilmail/') .  $inmail['id_inmail'] ?>" class="badge rounded-pill text-bg-success" title='Detil'><i class="fa-solid fa-arrow-up-right-from-square"></i></a>

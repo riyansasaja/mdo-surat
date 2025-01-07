@@ -39,7 +39,7 @@ class InmailController extends BaseController
     {
         //
         $data['inmaildespo'] = (object)$this->inmailModel->select('tb_inmail.*, tb_disposisi.for, tb_disposisi.to')
-            ->where(['tb_disposisi.to' => user()->fullname])
+            ->where(['tb_disposisi.to' => user()->fullname, 'tb_inmail.status_inmail' => 3])
             ->join('tb_disposisi', 'tb_inmail.id_inmail=tb_disposisi.id_inmail')
             ->findAll();
 
@@ -51,10 +51,15 @@ class InmailController extends BaseController
     public function showDespoted()
     {
         //
-        $data['inmaildespo'] = (object)$this->inmailModel->select('inmail.*, users.fullname, tb_disposition.disposition_form, tb_disposition.disposition_to, tb_disposition.disposition_log')
-            ->where(['tb_disposition.disposition_form' => user()->id])
-            ->join('tb_disposition', 'inmail.inmail_id=tb_disposition.inmail_id')
-            ->join('users', 'tb_disposition.disposition_to=users.id')
+//        $data['inmaildespo'] = (object)$this->inmailModel->select('inmail.*, users.fullname, tb_disposition.disposition_form, tb_disposition.disposition_to, tb_disposition.disposition_log')
+//            ->where(['tb_disposition.disposition_form' => user()->id])
+//            ->join('tb_disposition', 'inmail.inmail_id=tb_disposition.inmail_id')
+//            ->join('users', 'tb_disposition.disposition_to=users.id')
+//            ->findAll();
+
+        $data['inmaildespo'] = (object)$this->inmailModel->select('tb_inmail.*, tb_disposisi.for, tb_disposisi.to')
+            ->where(['tb_disposisi.to' => user()->fullname, 'tb_inmail.status_inmail' => 4])
+            ->join('tb_disposisi', 'tb_inmail.id_inmail=tb_disposisi.id_inmail')
             ->findAll();
 
         return view('inmail/showdespoted', $data);
@@ -126,6 +131,7 @@ class InmailController extends BaseController
 
         //insert db untuk tambah tb_disposition
         $insertdb = $this->despositionModel->insert($inputdb);
+        addStatus($id_inmail,'Disposisi ke '.$to);
 
         if ($insertdb) {
             # code...
@@ -141,6 +147,7 @@ class InmailController extends BaseController
 
     public function addEviden() {
 
+        $files = $this->request->getFile('file-eviden');
         //validasi rules
         if (!$this->validate([
             'fileEviden' => [
@@ -159,14 +166,33 @@ class InmailController extends BaseController
             session()->setFlashdata('error', $this->validator->getErrors());
             return redirect()->back();
         }
-        //jika lulus validasi
+        //########jika lulus validasi
         //ambil data inmail id
-        $inmail_id = $this->request->getVar('inmail_id');
-
+        $inmail = $this->inmailModel->where('id_inmail', $this->request->getVar('inmail_id'))->first(); ;
+        $nomor_surat = $inmail['no_surat'];
         //rename file
-        //retrun
-                //tapi perlu dipikirkan nanti seperti apa di database untuk inmail yang ditindak lanjut
-        session()->setFlashdata('success', 'File Lolos Validasi, untuk Masuk database masih mo pikir dulu depe database pe Model deng relasi so pusing!!!!');
+        $new_no_surat = str_replace('/', '-', $nomor_surat);
+        $new_no_surat1 = str_replace('.', '', $new_no_surat);
+        $newName = date('Ymd_his') . '_' . $new_no_surat1 .   '.' . $files->getClientExtension();
+        //pindahkan file ke folder upload/inmailAttach/tahun/evidence
+        $files->move('uploads/inmailAttach/' . session()->year . '/' . 'evidence' . '/', $newName);
+
+        //masukkan data dalam database
+        $datadb = [
+            'id_inmail' => $this->request->getVar('inmail_id'),
+            'user'   => user()->fullname,
+            'nama_file' => $newName,
+            'komentar' => $this->request->getVar('komentar-eviden'),
+        ];
+
+        $updateinmail = [
+            'status_inmail' => 4
+        ];
+        $this->inmailModel->update($this->request->getVar('inmail_id'), $updateinmail);
+        $this->evidenceModel->insert($datadb);
+        addStatus($this->request->getVar('inmail_id'),'Tindak Lanjut oleh '.user()->fullname);
+        //return
+        session()->setFlashdata('success', 'Data Evidence Berhasil di Upload');
         return redirect()->back();
 
     } //end function

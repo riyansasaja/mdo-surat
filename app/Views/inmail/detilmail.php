@@ -5,6 +5,9 @@
 /** @var $dispositions */
 /** @var $alluser */
 /** @var $refPetunjuk */
+/** @var $evidence */
+
+
 ?>
 
 
@@ -14,8 +17,8 @@
 
 <?php
 
-date_default_timezone_set('Asia/Singapore')
-// dd($mail);
+date_default_timezone_set('Asia/Singapore');
+// dd($evidence);
 ?>
 
 <div class="container-fluid px-4">
@@ -78,6 +81,25 @@ date_default_timezone_set('Asia/Singapore')
                                                 </div>
                                             </div>
 
+                                            <div class="row">
+                                                <div class="col">
+                                                    <?php if ($evidence) : ?>
+                                                    <?php foreach ($evidence as $key => $eviden) : ?>
+                                                        <div class="row">
+                                                            <div class="col mt-2">
+                                                                <a href="<?= base_url('uploads/inmailAttach/').date('Y').'/evidence/'.$eviden['nama_file'] ?>" target="_blank" class="btn btn-primary"> <i class="fa-solid fa-font-awesome"></i> Telah ditindak lanjuti</a>
+                                                            </div>
+                                                        </div>
+                                                    <div class="row">
+                                                        <div class="col mt-2">
+                                                            <p><?= $eviden['komentar'] ?></p>
+                                                        </div>
+                                                    </div>
+                                                            <?php endforeach; ?>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
 
@@ -93,8 +115,8 @@ date_default_timezone_set('Asia/Singapore')
                     <div class="card">
                         <div class="card-body">
 
-                            <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#disposisiModal" <?= ($evidence)?'disabldes': '' ?> >Tambah Desposisi</button>
-                            <button class="btn btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#tindaklanjutModal" <?= ($evidence)?'disabldes': '' ?>>Tindak Lanjut</button>
+                            <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#disposisiModal" <?= ($evidence)?'disabled': '' ?> >Tambah Desposisi</button>
+                            <button class="btn btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#tindaklanjutModal" <?= ($evidence)?'disabled': '' ?>>Tindak Lanjut</button>
                             <h5 class="card-title"> <img src="<?= base_url("assets/img/desposisi.png") ?>" alt="" class="img-fluid" width="10%"> Catatan Desposisi</h5>
                             <hr>
 
@@ -122,13 +144,7 @@ date_default_timezone_set('Asia/Singapore')
                         </div>
                     </div>
 
-                    <?php if ($evidence) : ?>
-                    <div class="row">
-                        <div class="col mt-2">
-                            <a href="" class="btn btn-primary"> <i class="fa-solid fa-font-awesome"></i> Telah ditindak lanjuti</a>
-                        </div>
-                    </div>
-                    <?php endif; ?>
+
 
                 </div> <!-- Tutup col kanan -->
 
@@ -246,7 +262,6 @@ date_default_timezone_set('Asia/Singapore')
                 <!--form open-->
                 <?= form_open_multipart('inmail/eviden') ?>
                 <?= form_hidden('inmail_id', $mail->id_inmail); ?>
-                <?= form_hidden('disposition_form', user()->id); ?>
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="inputEviden" class="form-label">Bukti Eviden</label>

@@ -49,11 +49,26 @@ class ModelInmail extends Model
     // Callbacks
     protected $allowCallbacks = true;
     protected $beforeInsert   = [];
-    protected $afterInsert    = [];
+    protected $afterInsert    = ['insertToStatus'];
     protected $beforeUpdate   = [];
     protected $afterUpdate    = [];
     protected $beforeFind     = [];
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+
+    protected function insertToStatus($id) {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('tb_status_mail');
+        $data = [
+            'id_inmail' => $id['id'],
+            'user' => user()->fullname,
+            'status' => 'Diinput oleh Operator'
+        ];
+        $builder->insert($data);
+    }
+
+
 }
+
+

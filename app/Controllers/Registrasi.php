@@ -237,6 +237,7 @@ class Registrasi extends BaseController
         ];
         //edit database inmail  - status inmail = 2 id_user despo = $id_userdespo
         $this->inmailModel->update($inmail_id, $data);
+        addStatus($inmail_id,'Diteruskan Oleh Operator');
         //buat session untuk pemberitahun Sukses
         session()->setFlashdata('success', 'Surat Berhasil Diteruskan');
         //kembalikan ke view
@@ -250,6 +251,7 @@ class Registrasi extends BaseController
             'id_user_despo' => null
         ];
         $this->inmailModel->update($inmail_id, $data);
+        addStatus($inmail_id,'Operator Batal Teruskan Surat');
         //kembalikan ke regsm detil.
         session()->setFlashdata('success', 'Desposisi Berhasil Dibatalkan');
         return redirect()->to('regsm/regsmdetil' . '/' . $inmail_id);

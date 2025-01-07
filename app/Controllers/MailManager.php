@@ -17,9 +17,11 @@ class MailManager extends BaseController
 
     public function index()
     {
+
         //get all mail where status =2 and id_user_despo = userid
-        $this->modelInmail->where('status_inmail', 2);
         $this->modelInmail->where('id_user_despo', user()->id);
+        $this->modelInmail->select('tb_inmail.*, tb_evidence.attachment_log');
+        $this->modelInmail->join('tb_evidence', 'tb_evidence.id_inmail = tb_inmail.id_inmail', 'left');
         $data['inmails'] = $this->modelInmail->findAll();
         return view('inmailmanage/show', $data);
     }

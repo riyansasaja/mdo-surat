@@ -16,6 +16,7 @@ class ModelEvidence extends Model
         'id_inmail',
         'id_user',
         'nama_file',
+        'komentar'
     ];
 
     protected bool $allowEmptyInserts = false;

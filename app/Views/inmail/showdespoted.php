@@ -26,8 +26,7 @@
                                 <th scope="col">Asal Surat</th>
                                 <th scope="col">Nomor Surat</th>
                                 <th scope="col">Tentang</th>
-                                <th scope="col">Disposisi To</th>
-                                <th scope="col">Tgl Disposisi</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -38,10 +37,9 @@
                                     <td><?= $inmail['asal_surat'] ?></td>
                                     <td><?= $inmail['no_surat'] ?></td>
                                     <td><?= $inmail['isi_surat'] ?></td>
-                                    <td><?= $inmail['fullname'] ?></td>
-                                    <td><?= date('d-m-Y', $inmail['disposition_log'] ) ?></td>
+                                    <td>Sudah Tindak Lanjut</td>
                                     <td>
-                                        <a href="<?= base_url('inmail/detilmail/') .  $inmail['inmail_id'] ?>" class="badge rounded-pill text-bg-success" title='Detil'><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                        <a href="<?= base_url('inmail/detilmail/') .  $inmail['id_inmail'] ?>" class="badge rounded-pill text-bg-success" title='Detil'><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
