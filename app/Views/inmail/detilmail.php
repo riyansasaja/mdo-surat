@@ -68,7 +68,7 @@ date_default_timezone_set('Asia/Singapore')
                                                                         <h5>Lampiran <?= $a; ?></h5>
                                                                     </td>
                                                                     <td>
-                                                                        <button class="btn btn-info z text-light sawdetil" data-file="<?= $attach['attachment_file'] ?>" data-kodesurat="<?= $mail->kode_surat ?>" data-id="<?= $mail->inmail_id ?>"><i class="fa-solid fa-hurricane"></i> Lihat Surat</button>
+                                                                        <button class="btn btn-info z text-light sawdetil" data-file="<?= $attach['attachment_file'] ?>" data-kodesurat="<?= $mail->kode_surat ?>" data-id="<?= $mail->id_inmail ?>"><i class="fa-solid fa-hurricane"></i> Lihat Surat</button>
                                                                     </td>
                                                                 </tr>
                                                                 <?php $a++; ?>
@@ -105,10 +105,16 @@ date_default_timezone_set('Asia/Singapore')
                                     <?php foreach ($petunjuk as $tunjuk) : ?>
                                         <span class="badge text-bg-secondary"><?= $tunjuk ?></span>
                                     <?php endforeach; ?>
-                                    <p><?= $dispo['catatan']; ?></p>
-                                    <footer class="blockquote-footer"><?= $dispo['from']; ?> <cite title="Source Title">
-                                            <?= date('d/m/y H:i:s', $dispo['disposition_log']); ?>
-                                        </cite> </footer>
+                                    <span class="badge text-bg-primary"><?= $dispo['sifat'] ?></span>
+                                    <p class="fs-4"><?= $dispo['catatan']; ?></p>
+                                    <footer class="fw-lighter fs-6">
+                                        Disposisi dari : <?= $dispo['for']; ?> <br>
+                                        Disposisi ke : <?= $dispo['to']; ?> <br>
+                                        Tgl Disposisi : <?= date('d/m/y H:i', strtotime($dispo['disposition_log'])) ; ?> <br>
+                                        <span class="text-danger">Deadline : <?= date('d/m/y', strtotime($dispo['deadline'])); ?></span>
+
+
+                                    </footer>
                                     <hr>
                                 </blockquote>
 
@@ -159,8 +165,8 @@ date_default_timezone_set('Asia/Singapore')
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <?= form_open('inmail/despoted'); ?>
-            <?= form_hidden('inmail_id', $mail->inmail_id); ?>
-            <?= form_hidden('disposition_form', user()->id); ?>
+            <?= form_hidden('inmail_id', $mail->id_inmail); ?>
+            <?= form_hidden('disposition_form', user()->fullname); ?>
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Pilih Tujuan Disposisi</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -187,7 +193,7 @@ date_default_timezone_set('Asia/Singapore')
                 <select class="form-select mb-2" aria-label="Default select example" name="disposition_to">
                     <option selected value="">Pilih Jabatan di Bawah ini</option>
                     <?php foreach ($alluser as $user) : ?>
-                        <option value="<?= $user->id ?>">
+                        <option value="<?= $user->fullname ?>">
                           <?= $user->nama_jabatan ?> ---
                           <?= $user->fullname ?>
                         </option>
@@ -207,6 +213,10 @@ date_default_timezone_set('Asia/Singapore')
                 <div class="mb-3 mt-3">
                     <label for="exampleFormControlTextarea1" class="form-label fw-bold">Catatan</label>
                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="catatan"></textarea>
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="deadline" class="form-label fw-bold">Deadline</label>
+                    <input class="form-control" type="date" id="deadline" name="deadline"></input>
                 </div>
 
 
@@ -235,7 +245,7 @@ date_default_timezone_set('Asia/Singapore')
 
                 <!--form open-->
                 <?= form_open_multipart('inmail/eviden') ?>
-                <?= form_hidden('inmail_id', $mail->inmail_id); ?>
+                <?= form_hidden('inmail_id', $mail->id_inmail); ?>
                 <?= form_hidden('disposition_form', user()->id); ?>
                 <div class="modal-body">
                     <div class="mb-3">
@@ -267,6 +277,7 @@ date_default_timezone_set('Asia/Singapore')
     let message = <?= json_encode(session()->getFlashdata('message')) ?>;
     let success = <?= json_encode(session()->getFlashdata('success')) ?>;
     let error = <?= json_encode(session()->getFlashdata('error')) ?>;
+    let year = <?= json_encode(session('year')) ?>;
     let path = <?= json_encode(base_url()) ?>;
 </script>
 

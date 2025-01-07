@@ -7,6 +7,10 @@ use App\Models\DespositionModel;
 use App\Models\EvidenceModel;
 use App\Models\InmailAttachment;
 use App\Models\InmailModel;
+use App\Models\ModelDisposisi;
+use App\Models\ModelEvidence;
+use App\Models\ModelInmail;
+use App\Models\ModelInmailAttachment;
 use App\Models\ModelKodeSurat;
 use App\Models\ModelRefPetunjuk;
 use App\Models\UserModel;
@@ -24,19 +28,19 @@ class InmailController extends BaseController
 
     public function __construct()
     {
-        $this->inmailModel = new InmailModel();
-        $this->despositionModel = new DespositionModel();
-        $this->inmailAttachmentModel = new InmailAttachment();
+        $this->inmailModel = new ModelInmail();
+        $this->despositionModel = new ModelDisposisi();
+        $this->inmailAttachmentModel = new ModelInmailAttachment();
         $this->userModel = new UserModel();
-        $this->evidenceModel = new EvidenceModel();
+        $this->evidenceModel = new ModelEvidence();
     }
 
     public function index()
     {
         //
-        $data['inmaildespo'] = (object)$this->inmailModel->select('inmail.*, tb_disposition.disposition_form, tb_disposition.disposition_to')
-            ->where(['tb_disposition.disposition_to' => user()->id, 'tb_disposition.disposition_status' => 1])
-            ->join('tb_disposition', 'inmail.inmail_id=tb_disposition.inmail_id')
+        $data['inmaildespo'] = (object)$this->inmailModel->select('tb_inmail.*, tb_disposisi.for, tb_disposisi.to')
+            ->where(['tb_disposisi.to' => user()->fullname])
+            ->join('tb_disposisi', 'tb_inmail.id_inmail=tb_disposisi.id_inmail')
             ->findAll();
 
         return view('inmail/show', $data);
@@ -56,18 +60,19 @@ class InmailController extends BaseController
         return view('inmail/showdespoted', $data);
     }
 
-    public function getbyid($id)
+    public function getbyid($id_inmail)
     {
+
         //ambil model ref petunjuk
         $refpetunjukModel = new ModelRefPetunjuk();
 
-        $data['mail'] = (object)$this->inmailModel->where('inmail_id', $id)->first();
-        $data['mailAttachment'] = $this->inmailAttachmentModel->where('inmail_id', $id)->findAll();
+        $data['mail'] = (object)$this->inmailModel->where('id_inmail', $id_inmail)->first();
+        $data['mailAttachment'] = $this->inmailAttachmentModel->where('id_inmail', $id_inmail)->findAll();
         $data['alluser'] = $this->userModel->select('*')->join('tb_jabatan', 'users.jabatan = tb_jabatan.id_jabatan', 'left')
             ->findall();
         $data['refPetunjuk'] = (object) $refpetunjukModel->findAll();
-        $data['dispositions'] = $this->despositionModel->getDesposition($id);
-        $data['evidence']= $this->evidenceModel->where('inmail_id', $id)->findAll();
+        $data['dispositions'] = $this->despositionModel->getDesposisi($id_inmail);
+        $data['evidence']= $this->evidenceModel->where('id_inmail', $id_inmail)->findAll();
         // dd($data['dispositions']);
         return view('inmail/detilmail', $data);
     }
@@ -77,10 +82,7 @@ class InmailController extends BaseController
 
         //bikin rules
         if (!$this->validate([
-//            'sifat' =>  'required',
-            'disposition_to' => 'required',
-//            'petunjuk' => 'required',
-//            'catatan' => 'required'
+            'disposition_to' => 'required'
         ])) {
             $validation = \Config\Services::validation();
             $errors = $validation->getErrors();
@@ -92,36 +94,36 @@ class InmailController extends BaseController
         }
 
         //ambil Hasil Post
-        $inmail_id = $this->request->getVar('inmail_id');
-        $disposition_form = $this->request->getVar('disposition_form');
-        $disposition_to = $this->request->getVar('disposition_to');
+        $id_inmail = $this->request->getVar('inmail_id');
+        $for = $this->request->getVar('disposition_form');
+        $to = $this->request->getVar('disposition_to');
         $sifat = $this->request->getVar('sifat');
         $petunjuk = $this->request->getVar('petunjuk');
-
         $Petunjuk_in = ($petunjuk==null)? null: implode(",", $petunjuk);
         $catatan = $this->request->getVar('catatan');
-
+        $deadline = $this->request->getVar('deadline');
 
         //ambil data desposisi untuk rubah  disposition_status
-        $id_disposition = $this->despositionModel->where(['inmail_id' => $inmail_id, 'disposition_to' => user()->id])->first();
+        $data_disposisi = $this->despositionModel->where(['id_inmail' => $id_inmail])->first();
+        if ($data_disposisi == null) {
+            $id_disposisi_parent = null;
+        } else {
+            $id_disposisi_parent = $data_disposisi['id_disposisi'];
+        }
 
         //eksekusi jika data valid
         $inputdb = [
-            'inmail_id' => $inmail_id,
-            'disposition_form' => $disposition_form,
-            'disposition_to' => $disposition_to,
+            'id_inmail' => $id_inmail,
+            'id_disposisi_parent' => $id_disposisi_parent,
+            'for' => $for,
+            'to' => $to,
             'sifat' => $sifat,
             'petunjuk' => $Petunjuk_in,
             'catatan' => $catatan,
-            'disposition_status' => 1,
+            'deadline' => $deadline,
             'disposition_log' => time()
+        ];
 
-        ];
-        $dataedit = [
-            'disposition_status' => 2,
-        ];
-        //edit dbe rubah desposition_status dari 1 menjadi 2
-        $this->despositionModel->update($id_disposition['disposition_id'], $dataedit);
         //insert db untuk tambah tb_disposition
         $insertdb = $this->despositionModel->insert($inputdb);
 
@@ -134,8 +136,6 @@ class InmailController extends BaseController
             session()->setFlashdata('error', 'Error input database');
             return redirect()->back();
         }
-
-        //return
 
     }
 

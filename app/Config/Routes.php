@@ -44,7 +44,7 @@ $routes->group('inmailmanage', ['filter' => 'role:manager'], function ($routes) 
 });
 
 //untuk User / processinmail
-$routes->group('inmail', ['filter' => 'permission:process_inmail'], function ($routes) {
+$routes->group('inmail', ['filter' => 'role:user, manager, admin, operator'], function ($routes) {
     $routes->get('/', 'InmailController::index');
     $routes->get('showdespoted', 'InmailController::showDespoted');
     $routes->get('/despoted', 'InmailController::index');

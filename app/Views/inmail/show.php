@@ -37,7 +37,7 @@
                                     <td><?= $inmail['no_surat'] ?></td>
                                     <td><?= $inmail['isi_surat'] ?></td>
                                     <td>
-                                        <a href="<?= base_url('inmail/detilmail/') .  $inmail['inmail_id'] ?>" class="badge rounded-pill text-bg-success" title='Detil'><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                                        <a href="<?= base_url('inmail/detilmail/') .  $inmail['id_inmail'] ?>" class="badge rounded-pill text-bg-success" title='Detil'><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

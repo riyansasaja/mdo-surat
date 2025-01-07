@@ -53,7 +53,8 @@ class ModelDisposisi extends Model
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
 
-    public function getDesposisi($id_inmail) {
+    public function getDesposisi($id_inmail): array
+    {
         return $this->where('id_inmail', $id_inmail)->findAll();
     }
 
