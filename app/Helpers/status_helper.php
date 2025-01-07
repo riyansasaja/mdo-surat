@@ -9,3 +9,10 @@ function addStatus($id_inmail, $status){
     ];
     $builder->insert($data);
 }
+
+function getStatus($id_inmail){
+    $db      = \Config\Database::connect();
+    $builder = $db->table('tb_status_mail');
+    $builder->where('id_inmail', $id_inmail);
+    return $builder->get()->getResultArray();
+}

@@ -42,17 +42,16 @@ echo $this->section('main');
                                 <td><?= $inmail['no_surat'] ?></td>
                                 <td><?= $inmail['isi_surat'] ?></td>
                                 <td><?= date('d-m-Y', strtotime($inmail['inmail_log'])) ?></td>
-                                <?php if ($inmail['status_inmail'] == 2) : ?>
-                                <td>Diteruskan Operator</td>
-                                <?php elseif ($inmail['status_inmail'] == 3) : ?>
-                                <td>Proses Disposisi</td>
-                                <?php elseif ($inmail['status_inmail'] == 4) : ?>
+                                <?php $status = getStatus($inmail['id_inmail']) ?>
                                 <td>
-                                    Selesai/Diarsipkan
+                                <?php foreach ($status as $stat): ?>
+                                    <?= $stat['status'] ?>
                                     <br>
-                                    <?= date('d-m-Y H:i:s', strtotime($inmail['attachment_log'])) ?>
+                                    - <?= date('d-m-y H:i:s', strtotime($stat['status_log'])) ?>
+                                    <br>
+                                <?php endforeach; ?>
                                 </td>
-                                <?php endif; ?>
+
                                 <td>
                                     <a href="<?= base_url('inmail/detilmail/') .  $inmail['id_inmail'] ?>" class="badge rounded-pill text-bg-success" title='Detil'><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
                                 </td>
