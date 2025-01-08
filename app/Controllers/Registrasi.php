@@ -20,12 +20,14 @@ class Registrasi extends BaseController
     private $inmailModel;
     private $modelDisposisi;
     private $year;
+    private $usersModel;
 
     public function __construct()
     {
         $this->inmailModel = new ModelInmail();
         $this->modelDisposisi = new ModelDisposisi();
         $this->year = session()->year;
+        $this->usersModel = new UserModel();
     }
 
     public function suratMasuk()
@@ -227,17 +229,23 @@ class Registrasi extends BaseController
 
     public function despoted()
     {
-
-        //ambil data
+        //ambil data inputan
         $id_user_despo = $this->request->getPost('id_user_despo');
         $inmail_id = $this->request->getPost('inmail_id');
+
+        //ambil nomor telpon berdasarkan id_user_despo
+        $hp = $this->usersModel->getHp($id_user_despo);
+        //simpan data
         $data = [
             'status_inmail' => 2,
             'id_user_despo' => $id_user_despo
         ];
         //edit database inmail  - status inmail = 2 id_user despo = $id_userdespo
         $this->inmailModel->update($inmail_id, $data);
+        //add ke tb_status
         addStatus($inmail_id,'Diteruskan Oleh Operator');
+        //notif WA
+        notifTerusan($hp->no_hp);
         //buat session untuk pemberitahun Sukses
         session()->setFlashdata('success', 'Surat Berhasil Diteruskan');
         //kembalikan ke view
@@ -250,10 +258,13 @@ class Registrasi extends BaseController
             'status_inmail' => 1,
             'id_user_despo' => null
         ];
+
         $this->inmailModel->update($inmail_id, $data);
+        //add ke tb_status
         addStatus($inmail_id,'Operator Batal Teruskan Surat');
         //kembalikan ke regsm detil.
         session()->setFlashdata('success', 'Desposisi Berhasil Dibatalkan');
         return redirect()->to('regsm/regsmdetil' . '/' . $inmail_id);
     }
+
 }

@@ -139,4 +139,11 @@ class UserModel extends Model
             'password' => bin2hex(random_bytes(16)),
         ]);
     }
+
+    public function getHp($id_user)
+    {
+        return $this->select('no_hp')->where('id', $id_user)->first();
+    }
+
+
 }

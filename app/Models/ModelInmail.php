@@ -68,6 +68,11 @@ class ModelInmail extends Model
         $builder->insert($data);
     }
 
+    public function getNomorSurat($id_inmail): object|array|null
+    {
+       return $this->select('no_surat')->where('id_inmail', $id_inmail)->first();
+    }
+
 
 }
 

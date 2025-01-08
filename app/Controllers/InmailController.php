@@ -108,13 +108,18 @@ class InmailController extends BaseController
         $catatan = $this->request->getVar('catatan');
         $deadline = $this->request->getVar('deadline');
 
-        //ambil data desposisi untuk rubah  disposition_status
+        //ambil data desposisi untuk rubah  disposition_status pada 'id_disposisi_parent'
         $data_disposisi = $this->despositionModel->where(['id_inmail' => $id_inmail])->first();
         if ($data_disposisi == null) {
             $id_disposisi_parent = null;
         } else {
             $id_disposisi_parent = $data_disposisi['id_disposisi'];
         }
+
+        //ambil data nomorsurat by id_inmail
+        $no_surat = $this->inmailModel->getNomorSurat($id_inmail);
+        //ambil nomor Telpon
+        $nohp = $this->userModel->getHp($to);
 
         //eksekusi jika data valid
         $inputdb = [
@@ -131,10 +136,14 @@ class InmailController extends BaseController
 
         //insert db untuk tambah tb_disposition
         $insertdb = $this->despositionModel->insert($inputdb);
-        addStatus($id_inmail,'Disposisi ke '.$to);
 
+        //jika sukses insert db
         if ($insertdb) {
             # code...
+            //add ke tb Status
+            addStatus($id_inmail,'Disposisi ke '.$to);
+            //notifikasi WA
+            notifdisposisi($nohp->no_hp, $no_surat);
             session()->setFlashdata('success', 'Desposisi Berhasil');
             return redirect()->back();
         } else {
