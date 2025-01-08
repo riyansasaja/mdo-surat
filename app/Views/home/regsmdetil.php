@@ -4,6 +4,14 @@
 
 <?php
 // dd($mail);
+/**
+ * @var $dispositions
+ * @var $mail
+ * @var $mailAttachment
+ * @var $suratKodes
+ * @var $alluser
+ *
+ **/
 ?>
 
 <div class="container-fluid px-4">
@@ -166,10 +174,16 @@
                                     <?php foreach ($petunjuk as $tunjuk) : ?>
                                         <span class="badge text-bg-secondary"><?= $tunjuk ?></span>
                                     <?php endforeach; ?>
-                                    <p><?= $dispo['catatan']; ?></p>
-                                    <footer class="blockquote-footer"><?= $dispo['from']; ?> <cite title="Source Title">
-                                            <?= date('d/m/y H:i:s', $dispo['disposition_log']); ?>
-                                        </cite> </footer>
+                                    <span class="badge text-bg-primary"><?= $dispo['sifat'] ?></span>
+                                    <p class="fs-4"><?= $dispo['catatan']; ?></p>
+                                    <footer class="fw-lighter fs-6">
+                                        Disposisi dari : <?= $dispo['for']; ?> <br>
+                                        Disposisi ke : <?= $dispo['to']; ?> <br>
+                                        Tgl Disposisi : <?= date('d/m/y H:i', strtotime($dispo['disposition_log'])) ; ?> <br>
+                                        <span class="text-danger">Deadline : <?= date('d/m/y', strtotime($dispo['deadline'])); ?></span>
+
+
+                                    </footer>
                                     <hr>
                                 </blockquote>
 

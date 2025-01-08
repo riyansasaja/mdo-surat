@@ -28,7 +28,6 @@ echo $this->section('main');
                             <th scope="col">Asal Surat</th>
                             <th scope="col">Nomor Surat</th>
                             <th scope="col">Tentang</th>
-                            <th scope="col">Tanggal Input</th>
                             <th scope="col">Status</th>
 
                             <th scope="col">Action</th>
@@ -41,7 +40,6 @@ echo $this->section('main');
                                 <td><?= $inmail['asal_surat'] ?></td>
                                 <td><?= $inmail['no_surat'] ?></td>
                                 <td><?= $inmail['isi_surat'] ?></td>
-                                <td><?= date('d-m-Y', strtotime($inmail['inmail_log'])) ?></td>
                                 <?php $status = getStatus($inmail['id_inmail']) ?>
                                 <td>
                                 <?php foreach ($status as $stat): ?>

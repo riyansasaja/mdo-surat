@@ -39,7 +39,7 @@ class InmailController extends BaseController
     {
         //
         $data['inmaildespo'] = (object)$this->inmailModel->select('tb_inmail.*, tb_disposisi.for, tb_disposisi.to')
-            ->where(['tb_disposisi.to' => user()->fullname, 'tb_inmail.status_inmail' => 3])
+            ->where(['tb_disposisi.to' => user()->fullname, 'tb_inmail.status_inmail' => 2])
             ->join('tb_disposisi', 'tb_inmail.id_inmail=tb_disposisi.id_inmail')
             ->findAll();
 

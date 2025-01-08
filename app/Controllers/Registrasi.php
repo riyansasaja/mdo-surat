@@ -36,7 +36,7 @@ class Registrasi extends BaseController
         $data['suratKodes'] = $modelKode->findAll();
         #mengecek nomor agenda
         $lastMail = $this->inmailModel->first();
-        $data['lastMail'] = $lastMail['nomor_agenda'];
+        ($lastMail)?$data['lastMail'] = $lastMail['nomor_agenda']:$data['lastMail'] = null;
         return view('home/regsm', $data);
     }
 

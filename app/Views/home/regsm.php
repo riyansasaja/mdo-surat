@@ -33,10 +33,11 @@
             <table class="table" id="tabelsuratmasuk">
                 <thead>
                     <tr>
-                        <th>Asal/No. Surat</th>
-                        <th>Tanggal Surat</th>
+                        <th>Asal Surat</th>
+                        <th>Nomor Surat</th>
                         <th>Perihal</th>
                         <th>Status</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,13 +45,22 @@
                         <tr>
                             <td>
                                 <b><?= $mail['asal_surat'] ?></b>
-                                <br> <?= $mail['no_surat'] ?>
                             </td>
-                            <td> <?= date('d/m/Y', strtotime($mail['tgl_surat']))  ?></td>
-                            <td><?= $mail['jenis_surat'] ?></td>
+                            <td><?= $mail['no_surat'] ?></td>
+                            <td> <?= $mail['perihal'] ?></td>
+                            <?php $status = getStatus($mail['id_inmail']) ?>
+                            <td>
+                                <?php foreach ($status as $stat): ?>
+                                    <?= $stat['status'] ?>
+                                    <br>
+                                    - <?= date('d-m-y H:i:s', strtotime($stat['status_log'])) ?>
+                                    <br>
+                                <?php endforeach; ?>
+                            </td>
+
                             <td>
                                 <a href="<?= base_url('regsm/regsmdetil/') . $mail['id_inmail']; ?>">
-                                    <span class="badge rounded-pill text-bg-dark"><?= $mail['status_inmail'] == 1 ? 'Belum Diteruskan' : 'Diteruskan' ?></span>
+                                    <span class="badge rounded-pill text-bg-dark"><i class="fa-solid fa-arrow-up-right-from-square"></i></span>
                                 </a>
                             </td>
                         </tr>
