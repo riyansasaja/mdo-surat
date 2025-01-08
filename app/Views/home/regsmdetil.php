@@ -165,7 +165,7 @@
                     <div class="card">
                         <div class="card-body">
 
-                            <h5 class="card-title"> <img src="<?= base_url("assets/img/desposisi.png") ?>" alt="" class="img-fluid" width="10%"> Catatan Desposisi</h5>
+                            <h5 class="card-title"> <img src="<?= base_url("assets/img/desposisi.png") ?>" alt="" class="img-fluid" width="10%"> Catatan Disposisi</h5>
                             <hr>
                             <?php foreach ($dispositions as $dispo) : ?>
                                 <?php $petunjuk = explode(',', $dispo['petunjuk']); ?>

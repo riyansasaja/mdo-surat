@@ -92,7 +92,7 @@
                 <div class="row mb-3">
                     <div class="col">
                         <label for="noAgenda" class="form-label">No. Agenda | No. Agenda Terakhir <span class="text-primary ml-3">--<?=$lastMail ?>--</span>  <i class="text-danger">*</i></label>
-                        <input type="text" class="form-control" id="noAgenda" name="nomor_agenda" required>
+                        <input type="text" class="form-control" id="noAgenda" name="nomor_agenda" value="<?=$lastMail +1 ?>" required>
                     </div>
                     <div class="col">
                         <label for="tglAgenda" class="form-label">Tgl Agenda <i class="text-danger">*</i></label>

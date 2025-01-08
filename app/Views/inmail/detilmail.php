@@ -115,9 +115,9 @@ date_default_timezone_set('Asia/Singapore');
                     <div class="card">
                         <div class="card-body">
 
-                            <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#disposisiModal" <?= ($evidence)?'disabled': '' ?> >Tambah Desposisi</button>
+                            <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#disposisiModal" <?= ($evidence)?'disabled': '' ?> >Tambah Disposisi</button>
                             <button class="btn btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#tindaklanjutModal" <?= ($evidence)?'disabled': '' ?>>Tindak Lanjut</button>
-                            <h5 class="card-title"> <img src="<?= base_url("assets/img/desposisi.png") ?>" alt="" class="img-fluid" width="10%"> Catatan Desposisi</h5>
+                            <h5 class="card-title"> <img src="<?= base_url("assets/img/desposisi.png") ?>" alt="" class="img-fluid" width="10%"> Catatan Disposisi</h5>
                             <hr>
 
                             <?php foreach ($dispositions as $dispo) : ?>
