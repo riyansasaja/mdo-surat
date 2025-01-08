@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Entities\User;
 use App\Models\ModelJabatan;
 use App\Models\UserModel;
+use CodeIgniter\HTTP\RedirectResponse;
 use Myth\Auth\Config\Auth as AuthConfig;
 use Myth\Auth\Models\GroupModel;
 use PharIo\Version\GreaterThanOrEqualToVersionConstraint;
@@ -33,12 +34,28 @@ class Home extends BaseController
         $this->usermodel = new UserModel();
         $this->config = config('Auth');
         $this->auth   = service('authentication');
+
     }
 
 
-    public function index(): string
+    public function index()
     {
+        if (user()->jabatan == null) {
+            return redirect()->to('/profile');
+        }
         return view('home/dashboard');
+    }
+
+    public function profile(): string
+    {
+        //ambil auth
+        $authorize = $auth = service('authorization');
+        $modelJabatan = new ModelJabatan();
+        $groupModel = new GroupModel();
+       $data['jabatan'] = $modelJabatan->findAll();
+        $data['groups'] = $authorize->groups();
+        $data['getroles'] = $groupModel->getGroupsForUser(user()->id);
+        return view('home/profile', $data);
     }
 
 
@@ -48,7 +65,7 @@ class Home extends BaseController
         $usermodel = new UserModel();
         $modaljabatan = new ModelJabatan();
 
-        $data['allusers'] = $usermodel->select('users.id, users.username, users.fullname, tb_jabatan.nama_jabatan')->join('tb_jabatan', 'users.jabatan =  tb_jabatan.id_jabatan')->findAll();
+        $data['allusers'] = $usermodel->select('users.id, users.username, users.fullname, tb_jabatan.nama_jabatan')->join('tb_jabatan', 'users.jabatan =  tb_jabatan.id_jabatan','left')->findAll();
         $data['jabatan'] = $modaljabatan->findAll();
         return view('home/users', $data);
     }
@@ -177,9 +194,9 @@ class Home extends BaseController
             $user->no_hp = $userdata['no_hp'];
 
             if ($this->usermodel->save($user)) {
-                return redirect()->route('users')->with('message', 'User Berhasil di Update');
+                return redirect()->back()->with('message', 'User Berhasil di Update');
             } else {
-                return redirect()->route('users')->with('message', 'User Gagal di Update');
+                return redirect()->back()->with('message', 'User Gagal di Update');
             }
         }
         //jika tombol reset password ditekan
@@ -255,4 +272,38 @@ class Home extends BaseController
         $groupModel->removeUserFromGroup($user_id, $group_id);
         return redirect()->back()->with('message', 'Role Berhasil dihapus');
     }
+
+    public function updatePassword()
+    {
+        // Validasi input
+        $rules = [
+            'old_password' => 'required',
+            'new_password' => 'required|min_length[8]',
+            'confirm_password' => 'required|matches[new_password]',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        // Ambil data user yang sedang login
+        $user = $this->usermodel->find(user()->id);
+        $userId = $user->id;
+
+        $authUserModel = service('authentication');
+        // Cek apakah password lama benar
+        $credential = [
+            'username'=> $user->username,
+            'password' => $this->request->getPost('old_password')
+        ];
+        if (!$authUserModel->attempt($credential)) {
+            return redirect()->back()->with('error', 'Password lama salah.');
+        }
+
+        // Update password
+        $user->password_hash = Password::hash($this->request->getPost('new_password'));
+        return redirect()->back()->with('message', 'Password berhasil diubah.');
+    }
+
+
 }

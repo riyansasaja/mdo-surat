@@ -6,6 +6,8 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('profile', 'Home::profile');
+$routes->post('password', 'Home::updatePassword');
 
 $routes->group('menej', ['filter' => 'role:admin,operator'], function($routes) {
    $routes->get('kodesurat', 'Manajemen::kodesurat');
@@ -16,13 +18,13 @@ $routes->group('menej', ['filter' => 'role:admin,operator'], function($routes) {
    $routes->post('addjabatan/', 'Manajemen::addJabatan');
 });
 
-$routes->group('users', ['filter' => 'permission:manage-users'], function ($routes) {
-    $routes->get('/', 'Home::usersManajemen');
-    $routes->get('user/(:num)', 'Home::userDetil/$1');
-    $routes->post('addUser', 'Home::addUser');
-    $routes->post('editUser', 'Home::editUser');
-    $routes->post('addusertogroup', 'Home::addusertoGroup');
-    $routes->get('removefromgroup/(:num)/(:num)', 'Home::removefromGroup/$1/$2');
+$routes->group('users', function ($routes) {
+    $routes->get('/', 'Home::usersManajemen', ['filter' => 'permission:manage-users']);
+    $routes->get('user/(:num)', 'Home::userDetil/$1' , ['filter' => 'permission:manage-users']);
+    $routes->post('addUser', 'Home::addUser' , ['filter' => 'permission:manage-users']);
+    $routes->post('editUser', 'Home::editUser', ['filter' => 'role:user, manager, admin, operator']);
+    $routes->post('addusertogroup', 'Home::addusertoGroup', ['filter' => 'permission:manage-users']);
+    $routes->get('removefromgroup/(:num)/(:num)', 'Home::removefromGroup/$1/$2', ['filter' => 'permission:manage-users']);
 });
 
 $routes->group('regsm', ['filter' => 'permission:manage-users, manage-regist'], function ($routes) {
