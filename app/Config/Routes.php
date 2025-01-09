@@ -7,6 +7,7 @@ use CodeIgniter\Router\RouteCollection;
  */
 $routes->get('/', 'Home::index');
 $routes->get('profile', 'Home::profile');
+$routes->get('logact', 'SuratKeluar::index');
 $routes->post('password', 'Home::updatePassword');
 
 $routes->group('menej', ['filter' => 'role:admin,operator'], function($routes) {
@@ -38,6 +39,10 @@ $routes->group('regsm', ['filter' => 'permission:manage-users, manage-regist'], 
     $routes->post('inattach', 'Registrasi::addinmailAttachment');
     $routes->get('dellattach/(:any)/(:any)/(:num)', 'Registrasi::delinmailAttachment/$1/$2/$3');
 
+});
+
+$routes->group('regso',['filter' => 'role:user, manager, admin, operator'], function ($routes) {
+    $routes->get('/', 'SuratKeluar::index');
 });
 
 //routes untuk proses management mail terusan
