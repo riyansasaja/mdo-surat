@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Entities\User;
+use App\Models\ModelInmail;
 use App\Models\ModelJabatan;
 use App\Models\UserModel;
 use CodeIgniter\HTTP\RedirectResponse;
@@ -40,10 +41,15 @@ class Home extends BaseController
 
     public function index()
     {
-        if (user()->jabatan == null) {
-            return redirect()->to('/profile');
-        }
-        return view('home/dashboard');
+        //inisiasi model
+        $modelInmail = new ModelInmail();
+        //ambil data total surat
+        $data['totalinmail']= $modelInmail->countAllResults();
+        //ambil data surat ditindaklanjuti
+        $data['inmailselesai'] = $modelInmail->where('status_inmail', '!=4')->countAllResults();
+        //ambil seluruh data surat
+        $data['inboxes'] = $modelInmail->asObject()->findAll();
+        return view('home/dashboard', $data);
     }
 
     public function profile(): string

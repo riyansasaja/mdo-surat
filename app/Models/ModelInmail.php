@@ -73,6 +73,13 @@ class ModelInmail extends Model
        return $this->select('no_surat')->where('id_inmail', $id_inmail)->first();
     }
 
+    public function getMonthRecap(): array
+    {
+        $db      = \Config\Database::connect();
+        $builder = $db->table('countview');
+        return $builder->get()->getResultObject();
+    }
+
 
 }
 

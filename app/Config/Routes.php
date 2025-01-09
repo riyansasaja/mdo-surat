@@ -6,6 +6,8 @@ use CodeIgniter\Router\RouteCollection;
  * @var RouteCollection $routes
  */
 $routes->get('/', 'Home::index');
+$routes->get('countinbox', 'CountData::countInbox');
+$routes->get('countoutbox', 'CountData::countOutbox');
 $routes->get('profile', 'Home::profile');
 $routes->get('logact', 'SuratKeluar::index');
 $routes->post('password', 'Home::updatePassword');
