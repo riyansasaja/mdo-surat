@@ -130,4 +130,5 @@ nb-configuration.xml
 /public/uploads/
 
 #helper whatsapp
-/app/Helpers/whatsapp_helper.php
+app/Helpers/
+
