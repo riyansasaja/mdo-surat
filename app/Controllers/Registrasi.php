@@ -245,7 +245,7 @@ class Registrasi extends BaseController
         //add ke tb_status
         addStatus($inmail_id,'Diteruskan Oleh Operator');
         //notif WA
-        notifTerusan($hp->no_hp);
+        $tes = notifTerusan($hp->no_hp);
         //buat session untuk pemberitahun Sukses
         session()->setFlashdata('success', 'Surat Berhasil Diteruskan');
         //kembalikan ke view
