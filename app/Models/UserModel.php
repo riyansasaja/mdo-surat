@@ -140,9 +140,9 @@ class UserModel extends Model
         ]);
     }
 
-    public function getHp($id_user)
+    public function getHp($to)
     {
-        return $this->select('no_hp')->where('id', $id_user)->first();
+        return $this->select('no_hp')->where('fullname', $to)->first();
     }
 
 

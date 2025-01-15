@@ -119,7 +119,7 @@ class InmailController extends BaseController
         //ambil data nomorsurat by id_inmail
         $no_surat = $this->inmailModel->getNomorSurat($id_inmail);
         //ambil nomor Telpon
-        dd($to);
+
         $nohp = $this->userModel->getHp($to);
         dd($nohp);
 
