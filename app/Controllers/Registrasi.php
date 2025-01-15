@@ -166,8 +166,8 @@ class Registrasi extends BaseController
                 'label' => 'File',
                 'rules' => [
                     'uploaded[inmailAttachment]',
-//                    'ext_in[inmailAttachment,pdf]',
-                     'mime_in[inmailAttachment,image/jpg,image/jpeg,image/gif,image/png,image/webp,application/pdf]',
+                    'ext_in[inmailAttachment,pdf]',
+//                     'mime_in[inmailAttachment,image/jpg,image/jpeg,image/gif,image/png,image/webp,application/pdf]',
                     // 'max_size[inmailAttachmet, 2048]',
                     // 'max_dims[userfile,1024,768]',
                 ],
