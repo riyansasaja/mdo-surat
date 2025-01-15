@@ -120,6 +120,7 @@ class InmailController extends BaseController
         $no_surat = $this->inmailModel->getNomorSurat($id_inmail);
         //ambil nomor Telpon
         $nohp = $this->userModel->getHp($to);
+        dd($nohp);
 
         //eksekusi jika data valid
         $inputdb = [
