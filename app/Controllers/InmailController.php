@@ -121,7 +121,6 @@ class InmailController extends BaseController
         //ambil nomor Telpon
 
         $nohp = $this->userModel->getHp($to);
-        dd($nohp);
 
         //eksekusi jika data valid
         $inputdb = [
