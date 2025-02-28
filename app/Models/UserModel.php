@@ -142,8 +142,6 @@ class UserModel extends Model
 
     public function getHp($to)
     {
-        return $this->select('no_hp')->where('fullname', $to)->first();
+        return $this->select('no_hp')->where('id', $to)->first();
     }
-
-
 }

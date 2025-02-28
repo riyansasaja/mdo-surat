@@ -231,11 +231,11 @@ class Registrasi extends BaseController
     {
         //ambil data inputan
         $id_user_despo = $this->request->getPost('id_user_despo');
-        dd($id_user_despo);
         $inmail_id = $this->request->getPost('inmail_id');
 
         //ambil nomor telpon berdasarkan id_user_despo
         $hp = $this->usersModel->getHp($id_user_despo);
+        dd($hp);
         //simpan data
         $data = [
             'status_inmail' => 2,
