@@ -38,7 +38,7 @@ class Registrasi extends BaseController
         $data['suratKodes'] = $modelKode->findAll();
         #mengecek nomor agenda
         $lastMail = $this->inmailModel->orderBy('id_inmail', 'desc')->first();
-        ($lastMail)?$data['lastMail'] = $lastMail['nomor_agenda']:$data['lastMail'] = 0;
+        ($lastMail) ? $data['lastMail'] = $lastMail['nomor_agenda'] : $data['lastMail'] = 0;
         return view('home/regsm', $data);
     }
 
@@ -167,7 +167,7 @@ class Registrasi extends BaseController
                 'rules' => [
                     'uploaded[inmailAttachment]',
                     'ext_in[inmailAttachment,pdf]',
-//                     'mime_in[inmailAttachment,image/jpg,image/jpeg,image/gif,image/png,image/webp,application/pdf]',
+                    //                     'mime_in[inmailAttachment,image/jpg,image/jpeg,image/gif,image/png,image/webp,application/pdf]',
                     // 'max_size[inmailAttachmet, 2048]',
                     // 'max_dims[userfile,1024,768]',
                 ],
@@ -231,6 +231,7 @@ class Registrasi extends BaseController
     {
         //ambil data inputan
         $id_user_despo = $this->request->getPost('id_user_despo');
+        dd($id_user_despo);
         $inmail_id = $this->request->getPost('inmail_id');
 
         //ambil nomor telpon berdasarkan id_user_despo
@@ -243,7 +244,7 @@ class Registrasi extends BaseController
         //edit database inmail  - status inmail = 2 id_user despo = $id_userdespo
         $this->inmailModel->update($inmail_id, $data);
         //add ke tb_status
-        addStatus($inmail_id,'Diteruskan Oleh Operator');
+        addStatus($inmail_id, 'Diteruskan Oleh Operator');
         //notif WA
         $tes = notifTerusan($hp->no_hp);
         //buat session untuk pemberitahun Sukses
@@ -261,10 +262,9 @@ class Registrasi extends BaseController
 
         $this->inmailModel->update($inmail_id, $data);
         //add ke tb_status
-        addStatus($inmail_id,'Operator Batal Teruskan Surat');
+        addStatus($inmail_id, 'Operator Batal Teruskan Surat');
         //kembalikan ke regsm detil.
         session()->setFlashdata('success', 'Desposisi Berhasil Dibatalkan');
         return redirect()->to('regsm/regsmdetil' . '/' . $inmail_id);
     }
-
 }
