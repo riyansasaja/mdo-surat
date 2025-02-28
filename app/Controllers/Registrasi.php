@@ -235,7 +235,6 @@ class Registrasi extends BaseController
 
         //ambil nomor telpon berdasarkan id_user_despo
         $hp = $this->usersModel->getHp($id_user_despo);
-        dd($hp);
         //simpan data
         $data = [
             'status_inmail' => 2,
