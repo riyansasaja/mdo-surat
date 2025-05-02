@@ -51,11 +51,11 @@ class InmailController extends BaseController
     public function showDespoted()
     {
         //
-//        $data['inmaildespo'] = (object)$this->inmailModel->select('inmail.*, users.fullname, tb_disposition.disposition_form, tb_disposition.disposition_to, tb_disposition.disposition_log')
-//            ->where(['tb_disposition.disposition_form' => user()->id])
-//            ->join('tb_disposition', 'inmail.inmail_id=tb_disposition.inmail_id')
-//            ->join('users', 'tb_disposition.disposition_to=users.id')
-//            ->findAll();
+        //        $data['inmaildespo'] = (object)$this->inmailModel->select('inmail.*, users.fullname, tb_disposition.disposition_form, tb_disposition.disposition_to, tb_disposition.disposition_log')
+        //            ->where(['tb_disposition.disposition_form' => user()->id])
+        //            ->join('tb_disposition', 'inmail.inmail_id=tb_disposition.inmail_id')
+        //            ->join('users', 'tb_disposition.disposition_to=users.id')
+        //            ->findAll();
 
         $data['inmaildespo'] = (object)$this->inmailModel->select('tb_inmail.*, tb_disposisi.for, tb_disposisi.to')
             ->where(['tb_disposisi.to' => user()->fullname, 'tb_inmail.status_inmail' => 4])
@@ -77,7 +77,7 @@ class InmailController extends BaseController
             ->findall();
         $data['refPetunjuk'] = (object) $refpetunjukModel->findAll();
         $data['dispositions'] = $this->despositionModel->getDesposisi($id_inmail);
-        $data['evidence']= $this->evidenceModel->where('id_inmail', $id_inmail)->findAll();
+        $data['evidence'] = $this->evidenceModel->where('id_inmail', $id_inmail)->findAll();
         // dd($data['dispositions']);
         return view('inmail/detilmail', $data);
     }
@@ -104,7 +104,7 @@ class InmailController extends BaseController
         $to = $this->request->getVar('disposition_to');
         $sifat = $this->request->getVar('sifat');
         $petunjuk = $this->request->getVar('petunjuk');
-        $Petunjuk_in = ($petunjuk==null)? null: implode(",", $petunjuk);
+        $Petunjuk_in = ($petunjuk == null) ? null : implode(",", $petunjuk);
         $catatan = $this->request->getVar('catatan');
         $deadline = $this->request->getVar('deadline');
 
@@ -119,15 +119,16 @@ class InmailController extends BaseController
         //ambil data nomorsurat by id_inmail
         $no_surat = $this->inmailModel->getNomorSurat($id_inmail);
         //ambil nomor Telpon
-
         $nohp = $this->userModel->getHp($to);
+        //ambil fullname
+        $to_fullname = $this->userModel->getFullname($to);
 
         //eksekusi jika data valid
         $inputdb = [
             'id_inmail' => $id_inmail,
             'id_disposisi_parent' => $id_disposisi_parent,
             'for' => $for,
-            'to' => $to,
+            'to' => $to_fullname,
             'sifat' => $sifat,
             'petunjuk' => $Petunjuk_in,
             'catatan' => $catatan,
@@ -142,7 +143,7 @@ class InmailController extends BaseController
         if ($insertdb) {
             # code...
             //add ke tb Status
-            addStatus($id_inmail,'Disposisi ke '.$to);
+            addStatus($id_inmail, 'Disposisi ke ' . $to_fullname);
             //notifikasi WA
             notifdisposisi($nohp->no_hp, $no_surat);
             session()->setFlashdata('success', 'Desposisi Berhasil');
@@ -152,17 +153,17 @@ class InmailController extends BaseController
             session()->setFlashdata('error', 'Error input database');
             return redirect()->back();
         }
-
     }
 
-    public function addEviden() {
+    public function addEviden()
+    {
 
         $files = $this->request->getFile('file-eviden');
         //validasi rules
         if (!$this->validate([
             'fileEviden' => [
                 'label' => 'File eviden',
-                'rules' =>[
+                'rules' => [
                     'uploaded[file-eviden]',
                     'ext_in[file-eviden,pdf,jpg,jpeg,png]',
                 ],
@@ -171,14 +172,14 @@ class InmailController extends BaseController
                     'ext_in' => 'File Harus PDF atau Gambar',
                 ]
             ],
-        ])){
+        ])) {
             //jika tidak lulus validasi
             session()->setFlashdata('error', $this->validator->getErrors());
             return redirect()->back();
         }
         //########jika lulus validasi
         //ambil data inmail id
-        $inmail = $this->inmailModel->where('id_inmail', $this->request->getVar('inmail_id'))->first(); ;
+        $inmail = $this->inmailModel->where('id_inmail', $this->request->getVar('inmail_id'))->first();;
         $nomor_surat = $inmail['no_surat'];
         //rename file
         $new_no_surat = str_replace('/', '-', $nomor_surat);
@@ -200,11 +201,10 @@ class InmailController extends BaseController
         ];
         $this->inmailModel->update($this->request->getVar('inmail_id'), $updateinmail);
         $this->evidenceModel->insert($datadb);
-        addStatus($this->request->getVar('inmail_id'),'Tindak Lanjut oleh '.user()->fullname);
+        addStatus($this->request->getVar('inmail_id'), 'Tindak Lanjut oleh ' . user()->fullname);
         //return
         session()->setFlashdata('success', 'Data Evidence Berhasil di Upload');
         return redirect()->back();
-
     } //end function
 
 

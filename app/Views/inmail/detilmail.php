@@ -84,18 +84,18 @@ date_default_timezone_set('Asia/Singapore');
                                             <div class="row">
                                                 <div class="col">
                                                     <?php if ($evidence) : ?>
-                                                    <?php foreach ($evidence as $key => $eviden) : ?>
-                                                        <div class="row">
-                                                            <div class="col mt-2">
-                                                                <a href="<?= base_url('uploads/inmailAttach/').date('Y').'/evidence/'.$eviden['nama_file'] ?>" target="_blank" class="btn btn-primary"> <i class="fa-solid fa-font-awesome"></i> Telah ditindak lanjuti</a>
+                                                        <?php foreach ($evidence as $key => $eviden) : ?>
+                                                            <div class="row">
+                                                                <div class="col mt-2">
+                                                                    <a href="<?= base_url('uploads/inmailAttach/') . date('Y') . '/evidence/' . $eviden['nama_file'] ?>" target="_blank" class="btn btn-primary"> <i class="fa-solid fa-font-awesome"></i> Telah ditindak lanjuti</a>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                    <div class="row">
-                                                        <div class="col mt-2">
-                                                            <p><?= $eviden['komentar'] ?></p>
-                                                        </div>
-                                                    </div>
-                                                            <?php endforeach; ?>
+                                                            <div class="row">
+                                                                <div class="col mt-2">
+                                                                    <p><?= $eviden['komentar'] ?></p>
+                                                                </div>
+                                                            </div>
+                                                        <?php endforeach; ?>
                                                     <?php endif; ?>
                                                 </div>
                                             </div>
@@ -115,8 +115,8 @@ date_default_timezone_set('Asia/Singapore');
                     <div class="card">
                         <div class="card-body">
 
-                            <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#disposisiModal" <?= ($evidence)?'disabled': '' ?> >Tambah Disposisi</button>
-                            <button class="btn btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#tindaklanjutModal" <?= ($evidence)?'disabled': '' ?>>Tindak Lanjut</button>
+                            <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#disposisiModal" <?= ($evidence) ? 'disabled' : '' ?>>Tambah Disposisi</button>
+                            <button class="btn btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#tindaklanjutModal" <?= ($evidence) ? 'disabled' : '' ?>>Tindak Lanjut</button>
                             <h5 class="card-title"> <img src="<?= base_url("assets/img/desposisi.png") ?>" alt="" class="img-fluid" width="10%"> Catatan Disposisi</h5>
                             <hr>
 
@@ -132,7 +132,7 @@ date_default_timezone_set('Asia/Singapore');
                                     <footer class="fw-lighter fs-6">
                                         Disposisi dari : <?= $dispo['for']; ?> <br>
                                         Disposisi ke : <?= $dispo['to']; ?> <br>
-                                        Tgl Disposisi : <?= date('d/m/y H:i', strtotime($dispo['disposition_log'])) ; ?> <br>
+                                        Tgl Disposisi : <?= date('d/m/y H:i', strtotime($dispo['disposition_log'])); ?> <br>
                                         <span class="text-danger">Deadline : <?= date('d/m/y', strtotime($dispo['deadline'])); ?></span>
 
 
@@ -209,9 +209,9 @@ date_default_timezone_set('Asia/Singapore');
                 <select class="form-select mb-2" aria-label="Default select example" name="disposition_to">
                     <option selected value="">Pilih Jabatan di Bawah ini</option>
                     <?php foreach ($alluser as $user) : ?>
-                        <option value="<?= $user->fullname ?>">
-                          <?= $user->nama_jabatan ?> ---
-                          <?= $user->fullname ?>
+                        <option value="<?= $user->id ?>">
+                            <?= $user->nama_jabatan ?> ---
+                            <?= $user->fullname ?>
                         </option>
                     <?php endforeach; ?>
                 </select>
@@ -250,37 +250,37 @@ date_default_timezone_set('Asia/Singapore');
 
 
 
-    <!-- Tindak Lanjut Modal -->
-    <div class="modal fade" id="tindaklanjutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Input Tindak lanjut</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-
-                <!--form open-->
-                <?= form_open_multipart('inmail/eviden') ?>
-                <?= form_hidden('inmail_id', $mail->id_inmail); ?>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="inputEviden" class="form-label">Bukti Eviden</label>
-                        <input class="form-control" type="file" id="inputEviden" name="file-eviden">
-                    </div>
-                    <div class="">
-                        <label for="komentarEviden" class="form-label">Komentar/Catatan</label>
-                        <textarea class="form-control" name="komentar-eviden" id="komentarEviden" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-                <?= form_close();?>
-                <!-- end form open -->
+<!-- Tindak Lanjut Modal -->
+<div class="modal fade" id="tindaklanjutModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Input Tindak lanjut</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+
+            <!--form open-->
+            <?= form_open_multipart('inmail/eviden') ?>
+            <?= form_hidden('inmail_id', $mail->id_inmail); ?>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="inputEviden" class="form-label">Bukti Eviden</label>
+                    <input class="form-control" type="file" id="inputEviden" name="file-eviden">
+                </div>
+                <div class="">
+                    <label for="komentarEviden" class="form-label">Komentar/Catatan</label>
+                    <textarea class="form-control" name="komentar-eviden" id="komentarEviden" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </div>
+            <?= form_close(); ?>
+            <!-- end form open -->
         </div>
     </div>
+</div>
 
 <?= $this->endSection() ?>
 

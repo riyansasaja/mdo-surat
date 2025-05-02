@@ -144,4 +144,10 @@ class UserModel extends Model
     {
         return $this->select('no_hp')->where('id', $to)->first();
     }
+
+    public function getFullname($to)
+    {
+        $fullname = $this->select('fullname')->where('id', $to)->first();
+        return $fullname->fullname;
+    }
 }
