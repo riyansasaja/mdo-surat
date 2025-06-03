@@ -132,3 +132,4 @@ nb-configuration.xml
 #helper whatsapp
 app/Helpers/
 
+public/error_log
