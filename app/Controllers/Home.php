@@ -35,7 +35,6 @@ class Home extends BaseController
         $this->usermodel = new UserModel();
         $this->config = config('Auth');
         $this->auth   = service('authentication');
-
     }
 
 
@@ -44,11 +43,11 @@ class Home extends BaseController
         //inisiasi model
         $modelInmail = new ModelInmail();
         //ambil data total surat
-        $data['totalinmail']= $modelInmail->countAllResults();
+        $data['totalinmail'] = $modelInmail->countAllResults();
         //ambil data surat ditindaklanjuti
         $data['inmailselesai'] = $modelInmail->where('status_inmail', '!=4')->countAllResults();
         //ambil seluruh data surat
-        $data['inboxes'] = $modelInmail->asObject()->findAll();
+        $data['inboxes'] = $modelInmail->asObject()->orderBy('id_inmail', 'desc')->findAll();
         return view('home/dashboard', $data);
     }
 
@@ -58,7 +57,7 @@ class Home extends BaseController
         $authorize = $auth = service('authorization');
         $modelJabatan = new ModelJabatan();
         $groupModel = new GroupModel();
-       $data['jabatan'] = $modelJabatan->findAll();
+        $data['jabatan'] = $modelJabatan->findAll();
         $data['groups'] = $authorize->groups();
         $data['getroles'] = $groupModel->getGroupsForUser(user()->id);
         return view('home/profile', $data);
@@ -71,7 +70,7 @@ class Home extends BaseController
         $usermodel = new UserModel();
         $modaljabatan = new ModelJabatan();
 
-        $data['allusers'] = $usermodel->select('users.id, users.username, users.fullname, tb_jabatan.nama_jabatan')->join('tb_jabatan', 'users.jabatan =  tb_jabatan.id_jabatan','left')->findAll();
+        $data['allusers'] = $usermodel->select('users.id, users.username, users.fullname, tb_jabatan.nama_jabatan')->join('tb_jabatan', 'users.jabatan =  tb_jabatan.id_jabatan', 'left')->findAll();
         $data['jabatan'] = $modaljabatan->findAll();
         return view('home/users', $data);
     }
@@ -299,7 +298,7 @@ class Home extends BaseController
         $authUserModel = service('authentication');
         // Cek apakah password lama benar
         $credential = [
-            'username'=> $user->username,
+            'username' => $user->username,
             'password' => $this->request->getPost('old_password')
         ];
         if (!$authUserModel->attempt($credential)) {
@@ -310,6 +309,4 @@ class Home extends BaseController
         $user->password_hash = Password::hash($this->request->getPost('new_password'));
         return redirect()->back()->with('message', 'Password berhasil diubah.');
     }
-
-
 }
