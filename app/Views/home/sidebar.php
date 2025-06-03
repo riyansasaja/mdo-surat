@@ -43,7 +43,7 @@
                 <?php if (in_groups('manager')) : ?>
                     <div class="sb-sidenav-menu-heading">Surat Masuk</div>
 
-                    <a class="nav-link " href="<?= base_url('inmailmanage') ?>" >
+                    <a class="nav-link " href="<?= base_url('inmailmanage') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope"></i></i></div>
                         Dari operator
                     </a>
@@ -51,7 +51,7 @@
 
                 <?php endif;  ?>
 
-                <?php if (has_permission('process_inmail')) : ?>
+                <?php if (in_groups('user')) : ?>
                     <div class="sb-sidenav-menu-heading">Kelola Disposisi</div>
 
                     <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
