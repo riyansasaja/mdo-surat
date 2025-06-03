@@ -229,9 +229,28 @@ class Registrasi extends BaseController
 
     public function despoted()
     {
+
+        //harusnya di sini buat form validation
+        $rules = [
+            'id_user_despo' => [
+                'rules' => 'required|numeric',
+                'errors' => [
+                    'required' => 'Silahkan pilih tujuan surat diteruskan',
+                    'numeric' => 'Silahkan Pilih Tujuan Surat Diteruskan'
+                ]
+            ],
+            'inmail_id' => 'required'
+        ];
+
+        if (!$this->validate($rules)) {
+            session()->setFlashdata('error', $this->validator->getErrors());
+            return redirect()->back();
+        }
+
         //ambil data inputan
         $id_user_despo = $this->request->getPost('id_user_despo');
         $inmail_id = $this->request->getPost('inmail_id');
+
 
         //ambil nomor telpon berdasarkan id_user_despo
         $hp = $this->usersModel->getHp($id_user_despo);
