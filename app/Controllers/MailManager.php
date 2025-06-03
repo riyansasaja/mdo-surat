@@ -22,7 +22,7 @@ class MailManager extends BaseController
         $this->modelInmail->where('id_user_despo', user()->id);
         $this->modelInmail->select('tb_inmail.*, tb_evidence.attachment_log');
         $this->modelInmail->join('tb_evidence', 'tb_evidence.id_inmail = tb_inmail.id_inmail', 'left');
-        $data['inmails'] = $this->modelInmail->findAll();
+        $data['inmails'] = $this->modelInmail->orderBy('tb_inmail.id_inmail', 'desc')->findAll();
         return view('inmailmanage/show', $data);
     }
 }
