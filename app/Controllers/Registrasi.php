@@ -34,7 +34,7 @@ class Registrasi extends BaseController
     {
         $modelKode = new ModelKodeSurat();
         //ambil semua data
-        $data['mails'] = $this->inmailModel->where('YEAR(inmail_log)', $this->year)->findAll();
+        $data['mails'] = $this->inmailModel->where('YEAR(inmail_log)', $this->year)->orderBy('id_inmail', 'desc')->findAll();
         $data['suratKodes'] = $modelKode->findAll();
         #mengecek nomor agenda
         $lastMail = $this->inmailModel->orderBy('id_inmail', 'desc')->first();
