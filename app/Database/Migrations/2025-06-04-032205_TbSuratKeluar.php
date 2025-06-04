@@ -14,8 +14,8 @@ class TbSuratKeluar extends Migration
             'user_id'          => ['type' => 'int'],
             'kode_surat'      => ['type' => 'varchar', 'constraint' => 30, 'null' => true],
             'isi_surat'      => ['type' => 'text', 'constraint' => 30, 'null' => true],
-            'penandatangan'      => ['type' => 'varchar', 'null' => true],
-            'file_ttd'      => ['type' => 'varchar', 'null' => true],
+            'penandatangan'      => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'file_ttd'      => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP'
         ]);
 
