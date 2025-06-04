@@ -11,9 +11,9 @@ class TbTemplateSurat extends Migration
         //
         $this->forge->addField([
             'id_template'               => ['type' => 'int', 'constraint' => 11, 'unsigned' => true, 'auto_increment' => true],
-            'nama_template'    => ['type' => 'varchar', 'constraint' => 50, 'null' => true],
-            'icon_template'    => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
-            'ref_link'          => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'nama_template'             => ['type' => 'varchar', 'constraint' => 50, 'null' => true],
+            'icon_template'             => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
+            'ref_link'                  => ['type' => 'varchar', 'constraint' => 255, 'null' => true],
             'created_at DATETIME DEFAULT CURRENT_TIMESTAMP'
         ]);
 
