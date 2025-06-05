@@ -220,5 +220,36 @@ class InmailController extends BaseController
 
 
 
+    public function delDispo($id_disposisi)
+    {
+        //ambe data login
+        $auth = service('authentication');
+        $currentuser =  $auth->user()->fullname;
+        // cek dulu apakah from dari yg bersangkutan
+        $datadispo = $this->despositionModel->where('id_disposisi', $id_disposisi)->first();
+        if ($datadispo['for'] == $currentuser) {
+            # code...
 
+            $delete = $this->despositionModel->delete($id_disposisi);
+            if ($delete) {
+                # code...
+                session()->setFlashdata('success', 'Data disposisi berhasil dihapus');
+                return redirect()->back();
+            } else {
+                # code...
+                session()->setFlashdata('error', 'Data disposisi gagal dihapus! hubungi Admin');
+                return redirect()->back();
+            }
+        } else {
+
+            session()->setFlashdata('error', 'Maaf hanya bisa menghapus yang anda disposisi!');
+            return redirect()->back();
+        }
+
+
+        //delete
+
+
+
+    }
 }

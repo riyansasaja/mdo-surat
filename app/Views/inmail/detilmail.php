@@ -113,7 +113,7 @@ date_default_timezone_set('Asia/Singapore');
                 <!-- baris sebelah kanan -->
                 <div class="col-md-5">
                     <div class="card">
-                        <div class="card-body">
+                        <div class="card-body" id="dispotampil">
 
                             <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#disposisiModal" <?= ($evidence) ? 'disabled' : '' ?>>Tambah Disposisi</button>
                             <button class="btn btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#tindaklanjutModal" <?= ($evidence) ? 'disabled' : '' ?>>Tindak Lanjut</button>
@@ -134,7 +134,8 @@ date_default_timezone_set('Asia/Singapore');
                                         Disposisi ke : <?= $dispo['to']; ?> <br>
                                         Tgl Disposisi : <?= date('d/m/y H:i', strtotime($dispo['disposition_log'])); ?> <br>
                                         <span class="text-danger">Deadline : <?= date('d/m/y', strtotime($dispo['deadline'])); ?></span>
-
+                                        <br>
+                                        <a href="<?= base_url('inmail/deldispo/') . $dispo['id_disposisi'] ?>" class="btn btn-sm btn-danger deldispo">batalkan disposisi</a>
 
                                     </footer>
                                     <hr>

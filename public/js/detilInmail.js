@@ -1,5 +1,30 @@
 $(document).ready(function () {
 
+
+    $('#dispotampil').on('click', '.deldispo', function (e) {
+        e.preventDefault();
+        let delurl = $(this).attr('href');
+
+        //swal
+        Swal.fire({
+        title: "Anda yakin?",
+        text: "Data yang sudah dihapus tidak bisa kembali!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Ya, Hapus!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = delurl;
+            }
+        });
+
+        console.log(delurl);        
+    });
+
+
+
     if (error) {
         Swal.fire({
             title: "Error",
