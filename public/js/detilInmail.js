@@ -1,5 +1,7 @@
 $(document).ready(function () {
 
+    console.log('ini detil mail.js');
+
 
     $('#dispotampil').on('click', '.deldispo', function (e) {
         e.preventDefault();
