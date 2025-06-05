@@ -109,6 +109,16 @@ class InmailController extends BaseController
         $catatan = $this->request->getVar('catatan');
         $deadline = $this->request->getVar('deadline');
 
+        //validasi apakah user for sudah pernah disposisi
+        //ambil data disposisi dengan id_inmail dan from
+        $validasi_disposisi = $this->despositionModel->where(['id_inmail' => $id_inmail, 'for' => $for])->first();
+        // dd($validasi_disposisi['to']);
+        if ($validasi_disposisi) {
+            # pemberitahuan kalau sudah pernah disposisi dalam bentuk return
+            session()->setFlashdata('error', 'Mohon maaf, surat ini sudah disposisi kepada ' . $validasi_disposisi['to']);
+            return redirect()->back();
+        }
+
         //ambil data desposisi untuk rubah  disposition_status pada 'id_disposisi_parent'
         $data_disposisi = $this->despositionModel->where(['id_inmail' => $id_inmail])->first();
         if ($data_disposisi == null) {
