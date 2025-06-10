@@ -74,7 +74,11 @@ d($mail);
                                                             <tr>
                                                                 <td><?= $mail->nomor_agenda ?></td>
                                                                 <td><?= $mail->tgl_agenda ?></td>
-                                                                <td><?= get_username_by_id($mail->id_user_despo) ?></td>
+                                                                <?php if ($mail->id_user_despo == null): ?>
+                                                                    <td></td>
+                                                                <?php else : ?>
+                                                                    <td><?= get_username_by_id($mail->id_user_despo) ?></td>
+                                                                <?php endif; ?>
                                                             </tr>
                                                         </tbody>
                                                     </table>
