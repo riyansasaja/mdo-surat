@@ -291,22 +291,38 @@ class Home extends BaseController
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        // Ambil data user yang sedang login
-        $user = $this->usermodel->find(user()->id);
-        $userId = $user->id;
+        $userModel = new \Myth\Auth\Models\UserModel();
+        $user = $userModel->find(user_id()); // user_id() helper dari MythAuth
 
-        $authUserModel = service('authentication');
-        // Cek apakah password lama benar
-        $credential = [
-            'username' => $user->username,
-            'password' => $this->request->getPost('old_password')
-        ];
-        if (!$authUserModel->attempt($credential)) {
-            return redirect()->back()->with('error', 'Password lama salah.');
+        // Verifikasi password saat ini
+        if (!Password::verify($this->request->getPost('old_password'), $user->password_hash)) {
+            return redirect()->back()->with('error', 'Password saat ini salah');
         }
 
-        // Update password
-        $user->password_hash = Password::hash($this->request->getPost('new_password'));
+        // Update password baru
+        $user->password = $this->request->getPost('new_password');
+        $userModel->save($user);
         return redirect()->back()->with('message', 'Password berhasil diubah.');
+
+
+
+
+        // // Ambil data user yang sedang login
+        // $user = $this->usermodel->find(user()->id);
+        // $userId = $user->id;
+
+        // $authUserModel = service('authentication');
+        // // Cek apakah password lama benar
+        // $credential = [
+        //     'username' => $user->username,
+        //     'password' => $this->request->getPost('old_password')
+        // ];
+        // if (!$authUserModel->attempt($credential)) {
+        //     return redirect()->back()->with('error', 'Password lama salah.');
+        // }
+
+        // // Update password
+        // $user->password_hash = Password::hash($this->request->getPost('new_password'));
+        // return redirect()->back()->with('message', 'Password berhasil diubah.');
     }
 }
