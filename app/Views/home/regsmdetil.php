@@ -12,6 +12,9 @@
  * @var $alluser
  *
  **/
+
+d($mail);
+
 ?>
 
 <div class="container-fluid px-4">
@@ -64,12 +67,14 @@
                                                             <tr>
                                                                 <th>No. Agenda</th>
                                                                 <th>Tgl. Agenda</th>
+                                                                <th>Diteruskan ke</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <tr>
                                                                 <td><?= $mail->nomor_agenda ?></td>
                                                                 <td><?= $mail->tgl_agenda ?></td>
+                                                                <td><?= get_username_by_id($mail->id_user_despo) ?></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -179,7 +184,7 @@
                                     <footer class="fw-lighter fs-6">
                                         Disposisi dari : <?= $dispo['for']; ?> <br>
                                         Disposisi ke : <?= $dispo['to']; ?> <br>
-                                        Tgl Disposisi : <?= date('d/m/y H:i', strtotime($dispo['disposition_log'])) ; ?> <br>
+                                        Tgl Disposisi : <?= date('d/m/y H:i', strtotime($dispo['disposition_log'])); ?> <br>
                                         <span class="text-danger">Deadline : <?= date('d/m/y', strtotime($dispo['deadline'])); ?></span>
 
 
