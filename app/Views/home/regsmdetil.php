@@ -13,8 +13,6 @@
  *
  **/
 
-d($mail);
-
 ?>
 
 <div class="container-fluid px-4">
