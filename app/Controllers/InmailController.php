@@ -208,7 +208,8 @@ class InmailController extends BaseController
         ];
 
         $updateinmail = [
-            'status_inmail' => 4
+            'status_inmail' => 4,
+            'id_user_tl' => user()->id
         ];
         $this->inmailModel->update($this->request->getVar('inmail_id'), $updateinmail);
         $this->evidenceModel->insert($datadb);
@@ -217,6 +218,26 @@ class InmailController extends BaseController
         session()->setFlashdata('success', 'Data Evidence Berhasil di Upload');
         return redirect()->back();
     } //end function
+
+    //delete evidence
+    public function delEvidence($idInmail)
+    {
+        $delete = $this->evidenceModel->where('id_inmail', $idInmail)->delete();
+        $updateinmail = [
+            'status_inmail' => 2,
+            'id_user_tl' => null
+        ];
+        $this->inmailModel->update($idInmail, $updateinmail);
+        if ($delete) {
+            # code...
+            session()->setFlashdata('success', 'Data Evidence berhasil dihapus');
+            return redirect()->back();
+        } else {
+            # code...
+            session()->setFlashdata('error', 'Data Evidence gagal dihapus! hubungi Admin');
+            return redirect()->back();
+        }
+    }
 
 
 
@@ -247,7 +268,8 @@ class InmailController extends BaseController
         }
 
 
-        //delete
+        //delete eviden
+
 
 
 

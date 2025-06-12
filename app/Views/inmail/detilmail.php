@@ -117,6 +117,11 @@ date_default_timezone_set('Asia/Singapore');
 
                             <button class="btn btn-primary mb-2" data-bs-toggle="modal" data-bs-target="#disposisiModal" <?= ($evidence) ? 'disabled' : '' ?>>Tambah Disposisi</button>
                             <button class="btn btn-warning mb-2" data-bs-toggle="modal" data-bs-target="#tindaklanjutModal" <?= ($evidence) ? 'disabled' : '' ?>>Tindak Lanjut</button>
+                            <?php if ($evidence): ?>
+                                <?php if ($mail->id_user_tl == user()->id) : ?>
+                                    <a href="<?= base_url('inmail/delevidence/') . $mail->id_inmail ?>" class="btn btn-danger">Hapus Eviden</a>
+                                <?php endif; ?>
+                            <?php endif; ?>
                             <h5 class="card-title"> <img src="<?= base_url("assets/img/desposisi.png") ?>" alt="" class="img-fluid" width="10%"> Catatan Disposisi</h5>
                             <hr>
 

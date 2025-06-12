@@ -60,4 +60,5 @@ $routes->group('inmail', ['filter' => 'role:user, manager, admin, operator'], fu
     $routes->post('despoted', 'InmailController::despoted');
     $routes->post('eviden', 'InmailController::addEviden');
     $routes->get('deldispo/(:num)', 'InmailController::delDispo/$1');
+    $routes->get('delevidence/(:num)', 'InmailController::delEvidence/$1');
 });
