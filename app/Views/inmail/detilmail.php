@@ -135,7 +135,7 @@ date_default_timezone_set('Asia/Singapore');
                                         Tgl Disposisi : <?= date('d/m/y H:i', strtotime($dispo['disposition_log'])); ?> <br>
                                         <span class="text-danger">Deadline : <?= date('d/m/y', strtotime($dispo['deadline'])); ?></span>
                                         <br>
-                                        <a href="<?= base_url('inmail/deldispo/') . $dispo['id_disposisi'] ?>" class="btn btn-sm btn-danger deldispo">batalkan disposisi</a>
+                                        <a href="<?= base_url('inmail/deldispo/') . $dispo['id_disposisi'] ?>" class="btn btn-sm btn-danger deldispo <?= ($evidence) ? 'disabled' : '' ?>">batalkan disposisi</a>
 
                                     </footer>
                                     <hr>
