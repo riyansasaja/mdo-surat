@@ -231,6 +231,7 @@ class InmailController extends BaseController
         if ($delete) {
             # code...
             session()->setFlashdata('success', 'Data Evidence berhasil dihapus');
+            addStatus($idInmail, 'Hapus Tindak Lanjut oleh ' . user()->fullname);
             return redirect()->back();
         } else {
             # code...
