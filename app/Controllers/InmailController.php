@@ -75,7 +75,7 @@ class InmailController extends BaseController
         $data['mail'] = (object)$this->inmailModel->where('id_inmail', $id_inmail)->first();
         $data['mailAttachment'] = $this->inmailAttachmentModel->where('id_inmail', $id_inmail)->findAll();
         $data['alluser'] = $this->userModel->select('*')->join('tb_jabatan', 'users.jabatan = tb_jabatan.id_jabatan', 'left')
-            ->findall();
+            ->where('users.active = 1')->findall();
         $data['refPetunjuk'] = (object) $refpetunjukModel->findAll();
         $data['dispositions'] = $this->despositionModel->getDesposisi($id_inmail);
         $data['evidence'] = $this->evidenceModel->where('id_inmail', $id_inmail)->findAll();
