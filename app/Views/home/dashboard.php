@@ -32,7 +32,7 @@
             <div class="card bg-warning text-white mb-4">
                 <div class="card-body">Total Surat Keluar</div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
-                    <p class="small text-white stretched-link fs-3">0 Surat</p>
+                    <p class="small text-white stretched-link fs-3">Coming Soon</p>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
