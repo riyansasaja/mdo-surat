@@ -6,7 +6,9 @@
  * @var $totalinmail
  * @var $inmailselesai
  * @var $inboxes
+ * @var $totalinmail $inbox
  **/
+
 
 ?>
 
@@ -98,20 +100,20 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                <?php foreach ($inboxes as $inbox) : ?>
-                    <tr>
-                        <td><?= $inbox->no_surat ?></td>
-                        <td><?= $inbox->asal_surat ?></td>
-                        <td><?= $inbox->perihal ?></td>
-                        <?php if ($inbox->status_inmail == 1) : ?>
-                        <td>Diinput</td>
-                        <?php elseif ($inbox->status_inmail == 2) : ?>
-                        <td>Disposisi</td>
-                        <?php elseif ($inbox->status_inmail == 4) : ?>
-                        <td>Selesai/Ditindaklanjuti</td>
-                        <?php endif;?>
-                    </tr>
-                <?php endforeach; ?>
+                    <?php foreach ($inboxes as $inbox) : ?>
+                        <tr>
+                            <td><?= $inbox['no_surat'] ?></td>
+                            <td><?= $inbox['asal_surat'] ?></td>
+                            <td><?= $inbox['perihal'] ?></td>
+                            <?php if ($inbox['status_inmail'] == 1) : ?>
+                                <td>Diinput</td>
+                            <?php elseif ($inbox['status_inmail'] == 2) : ?>
+                                <td>Disposisi</td>
+                            <?php elseif ($inbox['status_inmail'] == 4) : ?>
+                                <td>Selesai/Ditindaklanjuti</td>
+                            <?php endif; ?>
+                        </tr>
+                    <?php endforeach; ?>
 
                 </tbody>
             </table>
@@ -121,9 +123,12 @@
 
 <?= $this->endSection() ?>
 <?= $this->section('pageScripts') ?>
-    <script>let path = <?= json_encode(base_url()) ?>;</script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-    <script src="<?= base_url() ?>assets/demo/chart-area-demo.js"></script>
-    <script src="<?= base_url() ?>assets/demo/chart-bar-demo.js"></script><script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script>
+<script>
+    let path = <?= json_encode(base_url()) ?>;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
+<script src="<?= base_url() ?>assets/demo/chart-area-demo.js"></script>
+<script src="<?= base_url() ?>assets/demo/chart-bar-demo.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+<script src="js/datatables-simple-demo.js"></script>
 <?= $this->endSection() ?>

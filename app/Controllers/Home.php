@@ -45,9 +45,9 @@ class Home extends BaseController
         //ambil data total surat
         $data['totalinmail'] = $modelInmail->countAllResults();
         //ambil data surat ditindaklanjuti
-        $data['inmailselesai'] = $modelInmail->where('status_inmail', '!=4')->countAllResults();
+        $data['inmailselesai'] = $modelInmail->where('status_inmail', '4')->countAllResults();
         //ambil seluruh data surat
-        $data['inboxes'] = $modelInmail->asObject()->orderBy('id_inmail', 'desc')->findAll();
+        $data['inboxes'] = $modelInmail->orderBy('id_inmail', 'desc')->findAll();
         return view('home/dashboard', $data);
     }
 
