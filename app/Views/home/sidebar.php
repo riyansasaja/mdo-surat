@@ -17,7 +17,7 @@
                     </a>
                     <a class="nav-link" href="<?= base_url('/regsm/tl') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-envelope-circle-check"></i></div>
-                        Surat Masuk TL
+                        Surat Masuk Non TL
                     </a>
                     <a class="nav-link" href="<?= base_url('/regso') ?>">
                         <div class="sb-nav-link-icon"><i class="fa-solid fa-paper-plane"></i></div>
