@@ -32,6 +32,7 @@ $routes->group('users', function ($routes) {
 
 $routes->group('regsm', ['filter' => 'permission:manage-users, manage-regist'], function ($routes) {
     $routes->get('/', 'Registrasi::suratMasuk');
+    $routes->get('tl', 'Registrasi::smTL');
     $routes->get('regsmdetil/(:any)', 'Registrasi::detilSuratMasuk/$1');
     $routes->post('add', 'Registrasi::addSM');
     $routes->post('edit', 'Registrasi::editSuratMasuk');

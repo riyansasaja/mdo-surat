@@ -285,4 +285,17 @@ class Registrasi extends BaseController
         session()->setFlashdata('success', 'Desposisi Berhasil Dibatalkan');
         return redirect()->to('regsm/regsmdetil' . '/' . $inmail_id);
     }
+
+
+    public function smTL()
+    {
+        $modelKode = new ModelKodeSurat();
+        //ambil semua data
+        $data['mails'] = $this->inmailModel->where('YEAR(inmail_log)', $this->year)->whereNotIn('status_inmail', ['4'])
+            ->orderBy('id_inmail', 'desc')->findAll();
+
+        // dd($data['mails']);
+
+        return view('home/smtl', $data);
+    }
 }
