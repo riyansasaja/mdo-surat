@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    console.log('ini detil mail.js');
+    // console.log('ini detil mail.js');
 
 
     $('#dispotampil').on('click', '.deldispo', function (e) {
@@ -20,7 +20,7 @@ $(document).ready(function () {
             if (result.isConfirmed) {
                 window.location.href = delurl;
             }
-        });       
+        });
     });
 
 
@@ -30,7 +30,7 @@ $(document).ready(function () {
             title: "Error",
             text: JSON.stringify(error),
             icon: "error"
-          });
+        });
     }
 
     if (success) {
@@ -38,23 +38,23 @@ $(document).ready(function () {
             title: "Success",
             text: success,
             icon: "success"
-          });        
+        });
     }
 
 
 
 
     $('.sawdetil').on('click', function (e) {
-            e.preventDefault()
-            let file = $(this).attr('data-file')
-            let kodesurat = $(this).attr('data-kodesurat')
-            let id = $(this).attr('data-id')
-            let modaldetilmail = new bootstrap.Modal($('#detilsuratModal'))
+        e.preventDefault()
+        let file = $(this).attr('data-file')
+        let kodesurat = $(this).attr('data-kodesurat')
+        let id = $(this).attr('data-id')
+        let modaldetilmail = new bootstrap.Modal($('#detilsuratModal'))
 
-            let value = `${path}uploads/inmailAttach/${year}/${kodesurat}/${file}`
+        let value = `${path}uploads/inmailAttach/${year}/${kodesurat}/${file}`
 
-            $('#iframesurat').attr('src', value);
-            modaldetilmail.show()
+        $('#iframesurat').attr('src', value);
+        modaldetilmail.show()
 
     });
 

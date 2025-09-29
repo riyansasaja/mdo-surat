@@ -1,12 +1,12 @@
 window.addEventListener('DOMContentLoaded', event => {
-    console.log('ini reg sm')
-  
+    // console.log('ini reg sm')
+
     if (error) {
         Swal.fire({
             title: "Error",
             text: JSON.stringify(error),
             icon: "error"
-          });
+        });
     }
 
     if (success) {
@@ -14,14 +14,14 @@ window.addEventListener('DOMContentLoaded', event => {
             title: "Success",
             text: JSON.stringify(success),
             icon: "success"
-          });        
+        });
     }
 
     function tes(params) {
         console.log(`halo ${params}`)
     }
 
-   
+
 
 
 });
