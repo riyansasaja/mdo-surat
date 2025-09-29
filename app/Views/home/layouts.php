@@ -8,10 +8,18 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Persuratan</title>
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
+    <!-- DATA TABLES ONLINE -- DIMATIKAN SEMENTARA -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" /> -->
+    <!-- DATA TABLES OFFLINE -->
+    <link href="<?= base_url() ?>css/datatables.css" rel="stylesheet" />
+    <!-- CUSTOM CSS -->
     <link href="<?= base_url() ?>css/styles.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
-    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css'>
+    <!-- FONT AWESOME KIT -->
+    <script src="https://kit.fontawesome.com/5798309f98.js" crossorigin="anonymous"></script>
+
+    <!-- FONT AWESOME DARI TEMPLATE AWAL -->
+    <!-- <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script> -->
+    <!-- <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.5.1/uicons-regular-rounded/css/uicons-regular-rounded.css'> -->
 
     <?= $this->renderSection('header') ?>
 
@@ -61,14 +69,20 @@
             </footer>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP JS -->
+    <script src="<?= base_url() ?>js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+
+    <!-- CUSTOM JS -->
     <script src="<?= base_url() ?>js/scripts.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
-    <!-- <script src="<?= base_url() ?>js/datatables-simple-demo.js"></script> -->
+    <!-- DATA TABLES ONLINE - SEMENTARA NDA PAKE NTUK TES KECEPATAN -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script> -->
 
-    <!-- jquery bootstrap confirm -->
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- DATA TABLES OFFLINE -->
+    <script src="<?= base_url() ?>js/datatables.js"></script>
+
+    <!-- JQUERY BOOTSTRAP -->
+    <script src="<?= base_url() ?>js/jquery-3.7.1.min.js"></script>
 
     <?= $this->renderSection('pageScripts') ?>
 </body>
