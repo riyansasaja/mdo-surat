@@ -9,9 +9,9 @@
     <meta name="author" content="" />
     <title>Persuratan</title>
     <!-- DATA TABLES ONLINE -- DIMATIKAN SEMENTARA -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" /> -->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/style.min.css" rel="stylesheet" />
     <!-- DATA TABLES OFFLINE -->
-    <link href="<?= base_url() ?>css/datatables.css" rel="stylesheet" />
+    <!-- <link href="<?= base_url() ?>css/datatables.css" rel="stylesheet" /> -->
     <!-- CUSTOM CSS -->
     <link href="<?= base_url() ?>css/styles.css" rel="stylesheet" />
     <!-- FONT AWESOME KIT -->
@@ -73,16 +73,16 @@
     <script src="<?= base_url() ?>js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 
     <!-- CUSTOM JS -->
-    <script src="<?= base_url() ?>js/scripts.js"></script>
+    <script src=<?= base_url() . "js/scripts.js" ?>></script>
 
     <!-- DATA TABLES ONLINE - SEMENTARA NDA PAKE NTUK TES KECEPATAN -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
 
     <!-- DATA TABLES OFFLINE -->
-    <script src="<?= base_url() ?>js/datatables.js"></script>
+    <!-- <script src=<?= base_url() . "js/datatables.js" ?>></script> -->
 
     <!-- JQUERY BOOTSTRAP -->
-    <script src="<?= base_url() ?>js/jquery-3.7.1.min.js"></script>
+    <script src=<?= base_url() . "js/jquery-3.7.1.js" ?>></script>
 
     <?= $this->renderSection('pageScripts') ?>
 </body>

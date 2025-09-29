@@ -293,7 +293,7 @@ date_default_timezone_set('Asia/Singapore');
 
 <?= $this->section('pageScripts') ?>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="<?= base_url('js/detilInmail.js') ?>"></script>
+<script src=<?= base_url() . "js/detilInmail.js" ?>></script>
 <script>
     let message = <?= json_encode(session()->getFlashdata('message')) ?>;
     let success = <?= json_encode(session()->getFlashdata('success')) ?>;
