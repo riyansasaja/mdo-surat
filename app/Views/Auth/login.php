@@ -70,7 +70,9 @@
 
                                         <div class="form-floating mb-3">
                                             <input class="form-control" id="inputPassword" type="password" placeholder="<?= lang('Auth.password') ?>" name="password" <?php if (session('errors.password')) : ?>is-invalid<?php endif ?> />
-                                            <label for="inputPassword"><?= lang('Auth.password') ?></label>
+                                            <!-- <label for="inputPassword"><?= lang('Auth.password') ?></label> -->
+                                            <input type="checkbox" id="showPasswordCheckbox">
+                                            <label for="showPasswordCheckbox">Show Password</label>
                                             <div class="invalid-feedback">
                                                 <?= session('errors.password') ?>
                                             </div>
@@ -136,6 +138,19 @@
 
     <!-- Custom scripts for all pages-->
     <!-- <script src="js/sb-admin-2.min.js"></script> -->
+
+    <!-- UNTUK CHECK BOX SHOW PASSWORD -->
+    <script>
+        $(document).ready(function() {
+            $('#showPasswordCheckbox').click(function() {
+                if ($(this).is(':checked')) {
+                    $('#inputPassword').attr('type', 'text');
+                } else {
+                    $('#inputPassword').attr('type', 'password');
+                }
+            });
+        });
+    </script>
 
 </body>
 
